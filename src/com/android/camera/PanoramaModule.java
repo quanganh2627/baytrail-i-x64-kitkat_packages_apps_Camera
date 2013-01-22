@@ -1267,7 +1267,20 @@ public class PanoramaModule implements CameraModule,
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        return false;
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_FOCUS:
+                if (event.getRepeatCount() == 0) {
+                    onShutterButtonFocus(true);
+                }
+                return true;
+            case KeyEvent.KEYCODE_CAMERA:
+                if (event.getRepeatCount() == 0) {
+                    onShutterButtonClick();
+                }
+                return true;
+            default:
+                return false;
+        }
     }
 
     @Override
