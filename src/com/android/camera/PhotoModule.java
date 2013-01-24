@@ -437,6 +437,10 @@ public class PhotoModule
                 case OPEN_CAMERA_FAIL: {
                     mCameraStartUpThread = null;
                     mOpenCameraFail = true;
+                    if (isStillImageCameraSourceIntent()) {
+                        Log.i(TAG, "Open Camera Failed in StillImageCameraSource & finish the activity");
+                        mActivity.finish();
+                    }
                     Util.showErrorAndFinish(mActivity,
                             R.string.cannot_connect_camera);
                     break;
@@ -2232,6 +2236,12 @@ public class PhotoModule
         String action = mActivity.getIntent().getAction();
         return (MediaStore.ACTION_IMAGE_CAPTURE.equals(action)
                 || ActivityBase.ACTION_IMAGE_CAPTURE_SECURE.equals(action));
+    }
+
+    private boolean isStillImageCameraSourceIntent() {
+        String action = mActivity.getIntent().getAction();
+        return (MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA.equals(action)
+            || MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA_SECURE.equals(action));
     }
 
     private void setupCaptureParams() {
