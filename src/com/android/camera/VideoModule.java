@@ -1747,7 +1747,9 @@ public class VideoModule implements CameraModule,
                 fail = true;
             }
             mMediaRecorderRecording = false;
-            mActivity.getOrientationManager().unlockOrientation();
+            if (!mIsVideoCaptureIntent) {
+                mActivity.getOrientationManager().unlockOrientation();
+            }
 
             // If the activity is paused, this means activity is interrupted
             // during recording. Release the camera as soon as possible because
