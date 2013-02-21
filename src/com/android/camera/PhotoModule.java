@@ -2276,7 +2276,10 @@ public class PhotoModule
 
             // Set focus mode.
             mFocusManager.overrideFocusMode(null);
-            mParameters.setFocusMode(mFocusManager.getFocusMode());
+            String focusMode = mFocusManager.getFocusMode();
+            if (focusMode != null) {
+                mParameters.setFocusMode(focusMode);
+            }
         } else {
             mFocusManager.overrideFocusMode(mParameters.getFocusMode());
         }
