@@ -190,7 +190,7 @@ public class CameraHolder {
     }
 
     public synchronized CameraProxy open(int cameraId)
-            throws CameraHardwareException {
+            throws CameraHardwareException , NullPointerException {
         if (DEBUG_OPEN_RELEASE) {
             collectState(cameraId, mCameraDevice);
             if (mCameraOpened) {
@@ -231,7 +231,7 @@ public class CameraHolder {
                 }
             }
             mCameraId = cameraId;
-            mParameters = mCameraDevice.getParameters();
+            if (mCameraDevice != null) mParameters = mCameraDevice.getParameters();
         } else {
             try {
                 mCameraDevice.reconnect();
@@ -244,6 +244,7 @@ public class CameraHolder {
         mCameraOpened = true;
         mHandler.removeMessages(RELEASE_CAMERA);
         mKeepBeforeTime = 0;
+        if (mCameraDevice == null) throw new NullPointerException();
         return mCameraDevice;
     }
 
