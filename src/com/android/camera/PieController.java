@@ -105,7 +105,7 @@ public class PieController {
         mPreferences.add(pref);
         mPreferenceMap.put(pref, item);
         int nOfEntries = pref.getEntries().length;
-        if (nOfEntries > 1) {
+        if (nOfEntries >= 1) {
             for (int i = 0; i < nOfEntries; i++) {
                 PieItem inner = null;
                 if (iconIds != null) {
