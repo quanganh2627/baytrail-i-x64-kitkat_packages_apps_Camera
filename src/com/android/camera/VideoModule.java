@@ -2434,7 +2434,7 @@ public class VideoModule implements CameraModule,
     }
 
     private void initializeVideoSnapshot() {
-        if (Util.isVideoSnapshotSupported(mParameters) && !mIsVideoCaptureIntent) {
+        if (Util.isVideoSnapshotSupported(mParameters)) {
             mActivity.setSingleTapUpListener(mPreviewFrameLayout);
             // Show the tap to focus toast if this is the first start.
             if (mPreferences.getBoolean(
