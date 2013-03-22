@@ -2110,7 +2110,7 @@ public class VideoModule implements CameraModule,
         mMenu.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mPieRenderer != null) {
+                if (mPieRenderer != null && !isRecording()) {
                     mPieRenderer.showInCenter();
                 }
             }
