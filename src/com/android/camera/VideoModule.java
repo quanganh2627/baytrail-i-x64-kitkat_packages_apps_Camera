@@ -2434,16 +2434,14 @@ public class VideoModule implements CameraModule,
     }
 
     private void initializeVideoSnapshot() {
+        mActivity.setSingleTapUpListener(mPreviewFrameLayout);
         if (Util.isVideoSnapshotSupported(mParameters)) {
-            mActivity.setSingleTapUpListener(mPreviewFrameLayout);
             // Show the tap to focus toast if this is the first start.
             if (mPreferences.getBoolean(
                         CameraSettings.KEY_VIDEO_FIRST_USE_HINT_SHOWN, true)) {
                 // Delay the toast for one second to wait for orientation.
                 mHandler.sendEmptyMessageDelayed(SHOW_TAP_TO_SNAPSHOT_TOAST, 1000);
             }
-        } else {
-            mActivity.setSingleTapUpListener(null);
         }
     }
 
