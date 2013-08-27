@@ -49,7 +49,6 @@ import java.util.Date;
 public class CameraHolder {
     private static final String TAG = "CameraHolder";
     private static final int KEEP_CAMERA_TIMEOUT = 3000; // 3 seconds
-    private static final int CONNECT_CAMERA_TIMES = 5;
     private CameraProxy mCameraDevice;
     private long mKeepBeforeTime;  // Keep the Camera before this time.
     private final Handler mHandler;
@@ -190,7 +189,7 @@ public class CameraHolder {
     }
 
     public synchronized CameraProxy open(int cameraId)
-            throws CameraHardwareException , NullPointerException {
+            throws CameraHardwareException {
         if (DEBUG_OPEN_RELEASE) {
             collectState(cameraId, mCameraDevice);
             if (mCameraOpened) {
@@ -205,33 +204,21 @@ public class CameraHolder {
             mCameraId = -1;
         }
         if (mCameraDevice == null) {
-            for (int i = 0; i < CONNECT_CAMERA_TIMES; i++) {
-                try {
-                    Log.v(TAG, "Attempt to connect camera " + cameraId + "the " + (i + 1) + " time");
-                    if (mMockCameraInfo == null) {
-                        mCameraDevice = CameraManager.instance().cameraOpen(cameraId);
-                    } else {
-                        if (mMockCamera == null)
-                            throw new RuntimeException();
-                        mCameraDevice = mMockCamera[cameraId];
-                    }
-                    break;
-                } catch (RuntimeException e) {
-                    if (i == CONNECT_CAMERA_TIMES - 1) {
-                        Log.e(TAG, "fail to connect Camera & throw execption", e);
-                        throw new CameraHardwareException(e);
-                    }
-
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException interruptException) {
-                        Log.e(TAG, "Sleep InterruptedException " + interruptException.toString());
-                    }
-                    continue;
+            try {
+                Log.v(TAG, "open camera " + cameraId);
+                if (mMockCameraInfo == null) {
+                    mCameraDevice = CameraManager.instance().cameraOpen(cameraId);
+                } else {
+                    if (mMockCamera == null)
+                        throw new RuntimeException();
+                    mCameraDevice = mMockCamera[cameraId];
                 }
+                mCameraId = cameraId;
+            } catch (RuntimeException e) {
+                Log.e(TAG, "fail to connect Camera", e);
+                throw new CameraHardwareException(e);
             }
-            mCameraId = cameraId;
-            if (mCameraDevice != null) mParameters = mCameraDevice.getParameters();
+            mParameters = mCameraDevice.getParameters();
         } else {
             try {
                 mCameraDevice.reconnect();
@@ -244,7 +231,6 @@ public class CameraHolder {
         mCameraOpened = true;
         mHandler.removeMessages(RELEASE_CAMERA);
         mKeepBeforeTime = 0;
-        if (mCameraDevice == null) throw new NullPointerException();
         return mCameraDevice;
     }
 

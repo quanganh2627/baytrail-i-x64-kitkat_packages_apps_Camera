@@ -1714,9 +1714,7 @@ public class VideoModule implements CameraModule,
                 fail = true;
             }
             mMediaRecorderRecording = false;
-            if (!mIsVideoCaptureIntent) {
-                mActivity.getOrientationManager().unlockOrientation();
-            }
+            mActivity.getOrientationManager().unlockOrientation();
 
             // If the activity is paused, this means activity is interrupted
             // during recording. Release the camera as soon as possible because
@@ -2098,7 +2096,7 @@ public class VideoModule implements CameraModule,
         mMenu.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mPieRenderer != null && !isRecording()) {
+                if (mPieRenderer != null) {
                     mPieRenderer.showInCenter();
                 }
             }
@@ -2422,7 +2420,7 @@ public class VideoModule implements CameraModule,
     }
 
     private void initializeVideoSnapshot() {
-        if (Util.isVideoSnapshotSupported(mParameters)) {
+        if (Util.isVideoSnapshotSupported(mParameters) && !mIsVideoCaptureIntent) {
             mActivity.setSingleTapUpListener(mPreviewFrameLayout);
             // Show the tap to focus toast if this is the first start.
             if (mPreferences.getBoolean(

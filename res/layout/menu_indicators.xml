@@ -15,7 +15,6 @@
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/on_screen_indicators"
-    android:contentDescription="@string/camera_video_setting"
     android:layout_width="80dip"
     android:layout_height="80dip" >
 

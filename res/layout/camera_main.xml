@@ -22,7 +22,6 @@
 
     <FrameLayout
         android:id="@+id/main_content"
-        android:contentDescription="@string/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
