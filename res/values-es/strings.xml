@@ -21,11 +21,11 @@
     <string name="camera_disabled" msgid="8923911090533439312">"Se ha inhabilitado la cámara debido a las políticas de seguridad."</string>
     <string name="camera_label" msgid="6346560772074764302">"Cámara"</string>
     <string name="video_camera_label" msgid="2899292505526427293">"Videocámara"</string>
-    <string name="wait" msgid="8600187532323801552">"Por favor, espera..."</string>
+    <string name="wait" msgid="8600187532323801552">"Por favor, espera\u2026"</string>
     <string name="no_storage" product="nosdcard" msgid="7335975356349008814">"Para poder usar la cámara, activa el almacenamiento USB."</string>
     <string name="no_storage" product="default" msgid="5137703033746873624">"Para poder usar la cámara, inserta una tarjeta SD."</string>
-    <string name="preparing_sd" product="nosdcard" msgid="6104019983528341353">"Preparando almacenamiento USB…"</string>
-    <string name="preparing_sd" product="default" msgid="2914969119574812666">"Preparando tarjeta SD…"</string>
+    <string name="preparing_sd" product="nosdcard" msgid="6104019983528341353">"Preparando almacenamiento USB\u2026"</string>
+    <string name="preparing_sd" product="default" msgid="2914969119574812666">"Preparando tarjeta SD\u2026"</string>
     <string name="access_sd_fail" product="nosdcard" msgid="8147993984037859354">"No se ha podido acceder al almacenamiento USB."</string>
     <string name="access_sd_fail" product="default" msgid="1584968646870054352">"No se ha podido acceder a la tarjeta SD."</string>
     <string name="review_cancel" msgid="8188009385853399254">"CANCELAR"</string>
@@ -35,6 +35,14 @@
     <string name="pref_camera_id_entry_back" msgid="5142699735103692485">"Trasera"</string>
     <string name="pref_camera_id_entry_front" msgid="5668958706828733669">"Delantera"</string>
     <string name="pref_camera_recordlocation_title" msgid="371208839215448917">"Añadir ubicación"</string>
+    <string name="pref_camera_timer_title" msgid="3105232208281893389">"Temporizador de cuenta atrás"</string>
+  <plurals name="pref_camera_timer_entry">
+    <item quantity="one" msgid="1654523400981245448">"1 segundo"</item>
+    <item quantity="other" msgid="6455381617076792481">"%d segundos"</item>
+  </plurals>
+    <!-- no translation found for pref_camera_timer_sound_default (7066624532144402253) -->
+    <skip />
+    <string name="pref_camera_timer_sound_title" msgid="2469008631966169105">"Utilizar pitido"</string>
     <string name="setting_off" msgid="4480039384202951946">"Desactivado"</string>
     <string name="setting_on" msgid="8602246224465348901">"Activado"</string>
     <string name="pref_video_quality_title" msgid="8245379279801096922">"Calidad de vídeo"</string>
@@ -86,9 +94,9 @@
     <string name="pano_dialog_panorama_failed" msgid="2155692796549642116">"Error al guardar imagen panorámica"</string>
     <string name="pano_dialog_title" msgid="5755531234434437697">"Panorámico"</string>
     <string name="pano_capture_indication" msgid="8248825828264374507">"Capturando panorámica"</string>
-    <string name="pano_dialog_waiting_previous" msgid="7800325815031423516">"Esperando foto panorámica anterior..."</string>
-    <string name="pano_review_saving_indication_str" msgid="2054886016665130188">"Guardando..."</string>
-    <string name="pano_review_rendering" msgid="2887552964129301902">"Creando panorámica..."</string>
+    <string name="pano_dialog_waiting_previous" msgid="7800325815031423516">"Esperando foto panorámica anterior\u2026"</string>
+    <string name="pano_review_saving_indication_str" msgid="2054886016665130188">"Guardando\u2026"</string>
+    <string name="pano_review_rendering" msgid="2887552964129301902">"Creando panorámica\u2026"</string>
     <string name="tap_to_focus" msgid="8863427645591903760">"Toca para enfocar"</string>
     <string name="pref_video_effect_title" msgid="8243182968457289488">"Efectos"</string>
     <string name="effect_none" msgid="3601545724573307541">"Ninguno"</string>
@@ -103,6 +111,8 @@
     <string name="effect_backdropper_gallery" msgid="959158844620991906">"Tu vídeo"</string>
     <string name="bg_replacement_message" msgid="9184270738916564608">"Desactiva el dispositivo."\n"Deja de usarlo durante unos minutos."</string>
     <string name="video_snapshot_hint" msgid="18833576851372483">"Toca para hacer una foto mientras grabas un vídeo."</string>
+    <string name="video_recording_started" msgid="4132915454417193503">"Se ha iniciado la grabación de vídeo."</string>
+    <string name="video_recording_stopped" msgid="5086919511555808580">"La grabación de vídeo se ha detenido."</string>
     <string name="disable_video_snapshot_hint" msgid="4957723267826476079">"La instantánea de vídeo se inhabilita al activar efectos especiales."</string>
     <string name="clear_effects" msgid="5485339175014139481">"Borrar efectos"</string>
     <string name="effect_silly_faces" msgid="8107732405347155777">"CARAS GRACIOSAS"</string>
@@ -117,7 +127,7 @@
     <string name="accessibility_zoom_control" msgid="1339909363226825709">"Control de zoom"</string>
     <string name="accessibility_decrement" msgid="1411194318538035666">"Reducir %1$s"</string>
     <string name="accessibility_increment" msgid="8447850530444401135">"Aumentar %1$s"</string>
-    <string name="accessibility_switch" msgid="6995966685498958895">"Interruptor %1$s"</string>
+    <string name="accessibility_check_box" msgid="7317447218256584181">"Casilla de verificación %1$s"</string>
     <string name="accessibility_switch_to_camera" msgid="5951340774212969461">"Cambiar a la cámara"</string>
     <string name="accessibility_switch_to_video" msgid="4991396355234561505">"Cambiar a vídeo"</string>
     <string name="accessibility_switch_to_panorama" msgid="604756878371875836">"Cambiar a modo panorámico"</string>
@@ -173,6 +183,9 @@
     <string name="time_lapse_interval_set" msgid="2486386210951700943">"Listo"</string>
     <string name="set_time_interval" msgid="2970567717633813771">"Establecer intervalo de tiempo"</string>
     <string name="set_time_interval_help" msgid="6665849510484821483">"El intervalo de tiempo está desactivado. Activa esta función para establecer un intervalo."</string>
+    <string name="set_timer_help" msgid="5007708849404589472">"El temporizador de cuenta atrás está desactivado. Activa esta opción para ver la cuenta atrás antes de hacer una foto."</string>
+    <string name="set_duration" msgid="5578035312407161304">"Definir duración en segundos"</string>
+    <string name="count_down_title_text" msgid="4976386810910453266">"Cuenta atrás para hacer una foto"</string>
     <string name="remember_location_title" msgid="9060472929006917810">"¿Recordar ubicaciones de las fotos?"</string>
     <string name="remember_location_prompt" msgid="724592331305808098">"Etiqueta tus fotos y vídeos con las ubicaciones donde se han realizado."\n\n"Otras aplicaciones pueden acceder a esta información, así como a las imágenes guardadas."</string>
     <string name="remember_location_no" msgid="7541394381714894896">"No, gracias"</string>

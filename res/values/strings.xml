@@ -73,6 +73,19 @@
 
     <string name="pref_camera_recordlocation_default" translatable="false">none</string>
 
+    <!-- Title for countdown timer on camera settings screen [CHAR LIMIT=30]-->
+    <string name="pref_camera_timer_title">Countdown timer</string>
+
+    <string name="pref_camera_timer_default" translatable="false">0</string>
+    <!-- Entry for countdown timer setting. e.g. 1 second, 10 seconds, etc. [CHAR LIMIT=30]-->
+    <plurals name="pref_camera_timer_entry">
+        <item quantity="one">1 second</item>
+        <item quantity="other">%d seconds</item>
+    </plurals>
+    <string name="pref_camera_timer_sound_default">@string/setting_on_value</string>
+    <!-- Text followed by a checkbox to turn on/off sound effects during the countdown. [CHAR LIMIT = 16]-->
+    <string name="pref_camera_timer_sound_title">Beep during countdown</string>
+
     <!-- Entry of a on/off setting. The setting is turned off. [CHAR LIMIT=15] -->
     <string name="setting_off">Off</string>
     <!-- Entry of a on/off setting. The setting is turned on. [CHAR LIMIT=15] -->
@@ -277,6 +290,11 @@
     <!-- Toast telling users tapping on the viewfinder will take a picture [CHAR LIMIT=54] -->
     <string name="video_snapshot_hint">Touch to take photo while recording.</string>
 
+    <!-- Announcement telling users video recording has just started [CHAR LIMIT=NONE] -->
+    <string name="video_recording_started">Video recording has started.</string>
+    <!-- Announcement telling users video recording has just stopped [CHAR LIMIT=NONE] -->
+    <string name="video_recording_stopped">Video recording has stopped.</string>
+
     <!-- Toast telling users video snapshot is disabled when the effects are on and a user tries to tap on the viewfinder [CHAR LIMIT=65] -->
     <string name="disable_video_snapshot_hint">Video snapshot is disabled when special effects are on.</string>
 
@@ -299,6 +317,10 @@
     <string name="accessibility_camera_picker">Front and back camera switch</string>
     <!-- The mode picker to switch between camera, video and panorama. [CHAR LIMIT = NONE] -->
     <string name="accessibility_mode_picker">Camera, video, or panorama selector</string>
+    <!-- The Setting button of camera & video -->
+    <string name="camera_video_setting">Camera, video setting</string>
+    <!--main content-->
+    <string name="main_content">Main content</string>
     <!-- The button to switch to the second-level indicators of the camera settings. [CHAR LIMIT = NONE] -->
     <string name="accessibility_second_level_indicators">More setting controls</string>
     <!-- The button to back to the first-level indicators of the camera settings. [CHAR LIMIT = NONE] -->
@@ -309,8 +331,8 @@
     <string name="accessibility_decrement">Decrease %1$s</string>
     <!-- The increment button in camera preference such as exposure, picture size. [CHAR LIMIT = NONE] -->
     <string name="accessibility_increment">Increase %1$s</string>
-    <!-- The on/off switch in camera settings, such as store location. [CHAR LIMIT = NONE] -->
-    <string name="accessibility_switch">%1$s switch</string>
+    <!-- The check box in camera settings, such as store location. [CHAR LIMIT = NONE] -->
+    <string name="accessibility_check_box">%1$s check box</string>
     <!-- The button to switch to Camera mode. [CHAR LIMIT = NONE] -->
     <string name="accessibility_switch_to_camera">Switch to photo</string>
     <!-- The button to switch to Video mode. [CHAR LIMIT = NONE] -->
@@ -427,7 +449,13 @@ CHAR LIMIT = NONE] -->
     <!-- Title in time interval picker for setting time interval. [CHAR LIMIT = 30]-->
     <string name="set_time_interval">Set Time Interval</string>
     <!-- Help text that is shown when the time lapse feature is turned off. [CHAR LIMIT = 180]-->
-    <string name="set_time_interval_help">Time lapse feature is off. Turn it on to set time interval."</string>
+    <string name="set_time_interval_help">Time lapse feature is off. Turn it on to set time interval.</string>
+    <!-- Help text that is shown when the countdown timer is turned off. [CHAR LIMIT = 180]-->
+    <string name="set_timer_help">Countdown timer is off. Turn it on to count down before taking a picture.</string>
+    <!-- Title in timer setting for setting the duration for the countdown timer. [CHAR LIMIT = 50]-->
+    <string name="set_duration">Set duration in seconds</string>
+    <!-- On-screen hint during timer countdown for taking a photo. [CHAR LIMIT = 60]-->
+    <string name="count_down_title_text">Counting down to take a photo</string>
 
     <!-- Title for first run dialog asking if the user wants to remember photo locations [CHAR LIMIT = 50] -->
     <string name="remember_location_title">Remember photo locations?</string>

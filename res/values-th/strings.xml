@@ -35,6 +35,14 @@
     <string name="pref_camera_id_entry_back" msgid="5142699735103692485">"ย้อนกลับ"</string>
     <string name="pref_camera_id_entry_front" msgid="5668958706828733669">"ด้านหน้า"</string>
     <string name="pref_camera_recordlocation_title" msgid="371208839215448917">"ตำแหน่งจัดเก็บ"</string>
+    <string name="pref_camera_timer_title" msgid="3105232208281893389">"ตัวจับเวลาถอยหลัง"</string>
+  <plurals name="pref_camera_timer_entry">
+    <item quantity="one" msgid="1654523400981245448">"1 วินาที"</item>
+    <item quantity="other" msgid="6455381617076792481">"%d วินาที"</item>
+  </plurals>
+    <!-- no translation found for pref_camera_timer_sound_default (7066624532144402253) -->
+    <skip />
+    <string name="pref_camera_timer_sound_title" msgid="2469008631966169105">"บี๊ปตอนนับถอยหลัง"</string>
     <string name="setting_off" msgid="4480039384202951946">"ปิด"</string>
     <string name="setting_on" msgid="8602246224465348901">"เปิด"</string>
     <string name="pref_video_quality_title" msgid="8245379279801096922">"คุณภาพวิดีโอ"</string>
@@ -103,6 +111,8 @@
     <string name="effect_backdropper_gallery" msgid="959158844620991906">"วิดีโอของคุณ"</string>
     <string name="bg_replacement_message" msgid="9184270738916564608">"พักอุปกรณ์ของคุณ"\n"ออกจากการแสดงผลเป็นเวลาสักครู่หนึ่ง"</string>
     <string name="video_snapshot_hint" msgid="18833576851372483">"แตะเพื่อถ่ายภาพในขณะบันทึก"</string>
+    <string name="video_recording_started" msgid="4132915454417193503">"เริ่มบันทึกวิดีโอแล้ว"</string>
+    <string name="video_recording_stopped" msgid="5086919511555808580">"หยุดบันทึกวิดีโอแล้ว"</string>
     <string name="disable_video_snapshot_hint" msgid="4957723267826476079">"การจับภาพวิดีโอจะถูกปิดใช้งานเมื่อเปิดใช้เอฟเฟ็กต์พิเศษ"</string>
     <string name="clear_effects" msgid="5485339175014139481">"ล้างเอฟเฟ็กต์"</string>
     <string name="effect_silly_faces" msgid="8107732405347155777">"หน้าตลก"</string>
@@ -117,7 +127,7 @@
     <string name="accessibility_zoom_control" msgid="1339909363226825709">"การควบคุมการย่อ/ขยาย"</string>
     <string name="accessibility_decrement" msgid="1411194318538035666">"ลดลง %1$s"</string>
     <string name="accessibility_increment" msgid="8447850530444401135">"เพิ่มขึ้น %1$s"</string>
-    <string name="accessibility_switch" msgid="6995966685498958895">"สลับ %1$s"</string>
+    <string name="accessibility_check_box" msgid="7317447218256584181">"ช่องทำเครื่องหมาย %1$s"</string>
     <string name="accessibility_switch_to_camera" msgid="5951340774212969461">"เปลี่ยนเป็นภาพถ่าย"</string>
     <string name="accessibility_switch_to_video" msgid="4991396355234561505">"เปลี่ยนเป็นวิดีโอ"</string>
     <string name="accessibility_switch_to_panorama" msgid="604756878371875836">"เปลี่ยนเป็นภาพพาโนรามา"</string>
@@ -173,6 +183,9 @@
     <string name="time_lapse_interval_set" msgid="2486386210951700943">"เสร็จสิ้น"</string>
     <string name="set_time_interval" msgid="2970567717633813771">"ตั้งค่าช่วงเวลา"</string>
     <string name="set_time_interval_help" msgid="6665849510484821483">"คุณลักษณะช่วงเวลาปิดอยู่ เปิดคุณลักษณะนี้เพื่อตั้งค่าช่วงเวลา"</string>
+    <string name="set_timer_help" msgid="5007708849404589472">"ตัวจับเวลาถอยหลังปิดอยู่ เปิดตัวจับเวลาเพื่อนับถอยหลังก่อนถ่ายภาพ"</string>
+    <string name="set_duration" msgid="5578035312407161304">"ตั้งระยะเวลาเป็นวินาที"</string>
+    <string name="count_down_title_text" msgid="4976386810910453266">"นับถอยหลังเพื่อถ่ายภาพ"</string>
     <string name="remember_location_title" msgid="9060472929006917810">"จดจำตำแหน่งภาพหรือไม่"</string>
     <string name="remember_location_prompt" msgid="724592331305808098">"แท็กรูปภาพและวิดีโอด้วยตำแหน่งที่ถ่ายภาพ"\n\n"แอปพลิเคชันอื่นๆ สามารถเข้าถึงข้อมูลนี้ตลอดจนภาพที่บันทึกไว้ของคุณได้"</string>
     <string name="remember_location_no" msgid="7541394381714894896">"ไม่ ขอบคุณ"</string>

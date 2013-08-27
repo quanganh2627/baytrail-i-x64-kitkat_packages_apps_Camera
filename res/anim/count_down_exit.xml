@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2012 The Android Open Source Project
+<!-- Copyright (c) 2013, The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -13,19 +13,17 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/content"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-
-    <include layout="@layout/gl_root_group" />
-
-    <FrameLayout
-        android:id="@+id/main_content"
-        android:contentDescription="@string/main_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <include layout="@layout/camera_shutter_switcher" />
-
-</RelativeLayout>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+        <alpha
+            android:fromAlpha="1.0"
+            android:toAlpha="0.0"
+            android:duration="1000" />
+        <scale
+            android:fromXScale="1.0"
+            android:fromYScale="1.0"
+            android:toXScale="3.0"
+            android:toYScale="3.0"
+            android:pivotX="50%"
+            android:pivotY="50%"
+            android:duration="800" />
+</set>

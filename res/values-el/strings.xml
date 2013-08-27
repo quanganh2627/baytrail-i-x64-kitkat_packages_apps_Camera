@@ -35,6 +35,14 @@
     <string name="pref_camera_id_entry_back" msgid="5142699735103692485">"Πίσω"</string>
     <string name="pref_camera_id_entry_front" msgid="5668958706828733669">"Μπροστά"</string>
     <string name="pref_camera_recordlocation_title" msgid="371208839215448917">"Αποθήκευση τοποθεσίας"</string>
+    <string name="pref_camera_timer_title" msgid="3105232208281893389">"Χρονόμετρο αντίστροφης μέτρησης"</string>
+  <plurals name="pref_camera_timer_entry">
+    <item quantity="one" msgid="1654523400981245448">"1 δευτερόλεπτο"</item>
+    <item quantity="other" msgid="6455381617076792481">"%d δευτερόλεπτα"</item>
+  </plurals>
+    <!-- no translation found for pref_camera_timer_sound_default (7066624532144402253) -->
+    <skip />
+    <string name="pref_camera_timer_sound_title" msgid="2469008631966169105">"Ήχος κατά τη διάρκεια της αντίστροφης μέτρησης"</string>
     <string name="setting_off" msgid="4480039384202951946">"Απενεργοποιημ."</string>
     <string name="setting_on" msgid="8602246224465348901">"Ενεργοποιημ."</string>
     <string name="pref_video_quality_title" msgid="8245379279801096922">"Ποιότητα βίντεο"</string>
@@ -103,6 +111,8 @@
     <string name="effect_backdropper_gallery" msgid="959158844620991906">"Το βίντεό σας"</string>
     <string name="bg_replacement_message" msgid="9184270738916564608">"Αφήστε τη συσκευή σας κάτω"\n"Απομακρυνθείτε για λίγο από την εμβέλειά της."</string>
     <string name="video_snapshot_hint" msgid="18833576851372483">"Αγγίξτε για λήψη φωτογραφίας κατά την εγγραφή."</string>
+    <string name="video_recording_started" msgid="4132915454417193503">"Έχει ξεκινήσει η εγγραφή βίντεο."</string>
+    <string name="video_recording_stopped" msgid="5086919511555808580">"Έχει διακοπεί η εγγραφή βίντεο."</string>
     <string name="disable_video_snapshot_hint" msgid="4957723267826476079">"Το στιγμιότυπο οθόνης βίντεο απενεργοποιείται με ενεργά τα εφέ."</string>
     <string name="clear_effects" msgid="5485339175014139481">"Διαγραφή εφέ"</string>
     <string name="effect_silly_faces" msgid="8107732405347155777">"ΑΣΤΕΙΑ ΠΡΟΣΩΠΑ"</string>
@@ -117,7 +127,7 @@
     <string name="accessibility_zoom_control" msgid="1339909363226825709">"Έλεγχος εστίασης"</string>
     <string name="accessibility_decrement" msgid="1411194318538035666">"Μείωση %1$s"</string>
     <string name="accessibility_increment" msgid="8447850530444401135">"Αύξηση %1$s"</string>
-    <string name="accessibility_switch" msgid="6995966685498958895">"Διακόπτης %1$s"</string>
+    <string name="accessibility_check_box" msgid="7317447218256584181">"%1$s πλαίσιο επιλογής"</string>
     <string name="accessibility_switch_to_camera" msgid="5951340774212969461">"Μετάβαση σε φωτογραφία"</string>
     <string name="accessibility_switch_to_video" msgid="4991396355234561505">"Μετάβαση σε λειτουργία βίντεο"</string>
     <string name="accessibility_switch_to_panorama" msgid="604756878371875836">"Μετάβαση σε πανόραμα"</string>
@@ -173,6 +183,9 @@
     <string name="time_lapse_interval_set" msgid="2486386210951700943">"Τέλος"</string>
     <string name="set_time_interval" msgid="2970567717633813771">"Ορισμός χρονικού διαστήματος"</string>
     <string name="set_time_interval_help" msgid="6665849510484821483">"Η λειτουργία παρέλευσης χρόνου έχει απενεργοποιηθεί. Ενεργοποιήστε την για να ορίσετε το χρονικό διάστημα."</string>
+    <string name="set_timer_help" msgid="5007708849404589472">"Το χρονόμετρο αντίστροφης μέτρησης είναι απενεργοποιημένο. Ενεργοποιήστε το για να ξεκινήσει η αντίστροφη μέτρηση πριν τη λήψη φωτογραφίας."</string>
+    <string name="set_duration" msgid="5578035312407161304">"Ορισμός διάρκειας σε δευτερόλεπτα"</string>
+    <string name="count_down_title_text" msgid="4976386810910453266">"Αντίστροφη μέτρηση για λήψη φωτογραφίας"</string>
     <string name="remember_location_title" msgid="9060472929006917810">"Απομνημόνευση τοποθεσίας φωτογραφιών;"</string>
     <string name="remember_location_prompt" msgid="724592331305808098">"Προσθέστε ετικέτες στις φωτογραφίες και τα βίντεό σας με την τοποθεσία στην οποία έχουν τραβηχτεί."\n\n"Οι άλλες εφαρμογές μπορούν να αποκτήσουν πρόσβαση σε αυτές τις πληροφορίες μαζί με τις αποθηκευμένες σας εικόνες."</string>
     <string name="remember_location_no" msgid="7541394381714894896">"Όχι ευχαριστώ"</string>

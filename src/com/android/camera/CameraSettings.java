@@ -44,7 +44,7 @@ public class CameraSettings {
 
     public static final String KEY_VERSION = "pref_version_key";
     public static final String KEY_LOCAL_VERSION = "pref_local_version_key";
-    public static final String KEY_RECORD_LOCATION = RecordLocationPreference.KEY;
+    public static final String KEY_RECORD_LOCATION = "pref_camera_recordlocation_key";
     public static final String KEY_VIDEO_QUALITY = "pref_video_quality_key";
     public static final String KEY_VIDEO_TIME_LAPSE_FRAME_INTERVAL = "pref_video_time_lapse_frame_interval_key";
     public static final String KEY_PICTURE_SIZE = "pref_camera_picturesize_key";
@@ -55,6 +55,8 @@ public class CameraSettings {
     public static final String KEY_WHITE_BALANCE = "pref_camera_whitebalance_key";
     public static final String KEY_SCENE_MODE = "pref_camera_scenemode_key";
     public static final String KEY_EXPOSURE = "pref_camera_exposure_key";
+    public static final String KEY_TIMER = "pref_camera_timer_key";
+    public static final String KEY_TIMER_SOUND_EFFECTS = "pref_camera_timer_sound_key";
     public static final String KEY_VIDEO_EFFECT = "pref_video_effect_key";
     public static final String KEY_CAMERA_ID = "pref_camera_id_key";
     public static final String KEY_CAMERA_HDR = "pref_camera_hdr_key";
@@ -160,6 +162,9 @@ public class CameraSettings {
         ListPreference focusMode = group.findPreference(KEY_FOCUS_MODE);
         IconListPreference exposure =
                 (IconListPreference) group.findPreference(KEY_EXPOSURE);
+        CountDownTimerPreference timer =
+                (CountDownTimerPreference) group.findPreference(KEY_TIMER);
+        ListPreference countDownSoundEffects = group.findPreference(KEY_TIMER_SOUND_EFFECTS);
         IconListPreference cameraIdPref =
                 (IconListPreference) group.findPreference(KEY_CAMERA_ID);
         ListPreference videoFlashMode =

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (c) 2011, The Android Open Source Project
+<!-- Copyright (c) 2013, The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
      limitations under the License.
 -->
 
-<com.android.camera.ui.TimeIntervalPopup xmlns:android="http://schemas.android.com/apk/res/android"
+<com.android.camera.ui.TimerSettingPopup xmlns:android="http://schemas.android.com/apk/res/android"
         style="@style/SettingPopupWindow">
 
     <LinearLayout android:orientation="vertical"
@@ -25,16 +25,17 @@
         <LinearLayout android:orientation="horizontal"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent">
-            <TextView android:id="@+id/title"
+            <TextView
+                    android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
                     android:ellipsize="end"
                     android:layout_weight="1"
                     android:minHeight="@dimen/popup_title_frame_min_height"
+                    android:gravity="center_vertical"
                     style="@style/PopupTitleText" />
             <Switch
-                    android:id="@+id/time_lapse_switch"
+                    android:id="@+id/timer_setting_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="0"
@@ -44,27 +45,40 @@
 
         <View style="@style/PopupTitleSeparator" />
 
+        <TextView
+                android:id="@+id/set_timer_help_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="16dip"
+                android:paddingLeft="16dip"
+                android:paddingRight="16dip"
+                android:paddingBottom="16dip"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/set_timer_help"/>
+
         <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/time_duration_picker"
+                android:orientation="vertical"
+                android:layout_gravity="center_horizontal"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
+                android:layout_width="match_parent">
             <TextView
-                    android:id="@+id/set_time_interval_help_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="16dip"
-                    android:paddingLeft="16dip"
-                    android:paddingRight="16dip"
-                    android:paddingBottom="16dip"
+                    android:id="@+id/set_time_interval_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingTop="5dip"
+                    android:gravity="center"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="@string/set_time_interval_help"/>
-        </LinearLayout>
-
-        <LinearLayout android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal" >
-                <include layout="@layout/time_interval_picker"/>
+                    android:text="@string/set_duration"/>
+            <!-- A number picker to set timer -->
+            <NumberPicker
+                    android:id="@+id/duration"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dip"
+                    android:layout_marginRight="16dip"
+                    android:layout_gravity="center_horizontal"
+                    android:focusable="false" />
         </LinearLayout>
 
         <LinearLayout
@@ -74,7 +88,7 @@
                 android:divider="?android:attr/dividerHorizontal"
                 android:showDividers="beginning"
                 android:dividerPadding="0dip">
-            <Button android:id="@+id/time_lapse_interval_set_button"
+            <Button android:id="@+id/timer_set_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -84,4 +98,4 @@
         </LinearLayout>
     </LinearLayout>
 
-</com.android.camera.ui.TimeIntervalPopup>
+</com.android.camera.ui.TimerSettingPopup>

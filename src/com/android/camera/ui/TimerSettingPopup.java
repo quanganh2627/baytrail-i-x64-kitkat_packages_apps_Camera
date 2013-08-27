@@ -13,7 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.android.camera.ui;
+
+import java.util.Locale;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -26,7 +29,6 @@ import android.widget.NumberPicker;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.android.camera.IconListPreference;
 import com.android.camera.ListPreference;
 import com.android.camera.R;
 
@@ -34,14 +36,13 @@ import com.android.camera.R;
  * This is a popup window that allows users to turn on/off time lapse feature,
  * and to select a time interval for taking a time lapse video.
  */
-public class TimeIntervalPopup extends AbstractSettingPopup {
-    private static final String TAG = "TimeIntervalPopup";
+
+public class TimerSettingPopup extends AbstractSettingPopup {
+    private static final String TAG = "TimerSettingPopup";
     private NumberPicker mNumberSpinner;
-    private NumberPicker mUnitSpinner;
-    private Switch mTimeLapseSwitch;
-    private final String[] mUnits;
-    private final String[] mDurations;
-    private IconListPreference mPreference;
+    private Switch mTimerSwitch;
+    private String[] mDurations;
+    private ListPreference mPreference;
     private Listener mListener;
     private Button mConfirmButton;
     private TextView mHelpText;
@@ -55,22 +56,23 @@ public class TimeIntervalPopup extends AbstractSettingPopup {
         mListener = listener;
     }
 
-    public TimeIntervalPopup(Context context, AttributeSet attrs) {
+    public TimerSettingPopup(Context context, AttributeSet attrs) {
         super(context, attrs);
-
-        Resources res = context.getResources();
-        mUnits = res.getStringArray(R.array.pref_video_time_lapse_frame_interval_units);
-        mDurations = res
-                .getStringArray(R.array.pref_video_time_lapse_frame_interval_duration_values);
     }
 
-    public void initialize(IconListPreference preference) {
+    public void initialize(ListPreference preference) {
         mPreference = preference;
 
         // Set title.
         mTitle.setText(mPreference.getTitle());
 
         // Duration
+        CharSequence[] entries = mPreference.getEntryValues();
+        mDurations = new String[entries.length - 1];
+        Locale locale = getResources().getConfiguration().locale;
+        for (int i = 1; i < entries.length; i++)
+            mDurations[i-1] = String.format(locale, "%d",
+                    Integer.parseInt(entries[i].toString()));
         int durationCount = mDurations.length;
         mNumberSpinner = (NumberPicker) findViewById(R.id.duration);
         mNumberSpinner.setMinValue(0);
@@ -78,23 +80,15 @@ public class TimeIntervalPopup extends AbstractSettingPopup {
         mNumberSpinner.setDisplayedValues(mDurations);
         mNumberSpinner.setWrapSelectorWheel(false);
 
-        // Units for duration (i.e. seconds, minutes, etc)
-        mUnitSpinner = (NumberPicker) findViewById(R.id.duration_unit);
-        mUnitSpinner.setMinValue(0);
-        mUnitSpinner.setMaxValue(mUnits.length - 1);
-        mUnitSpinner.setDisplayedValues(mUnits);
-        mUnitSpinner.setWrapSelectorWheel(false);
-
-        mTimePicker = findViewById(R.id.time_interval_picker);
-        mTimeLapseSwitch = (Switch) findViewById(R.id.time_lapse_switch);
-        mHelpText = (TextView) findViewById(R.id.set_time_interval_help_text);
-        mConfirmButton = (Button) findViewById(R.id.time_lapse_interval_set_button);
+        mTimerSwitch = (Switch) findViewById(R.id.timer_setting_switch);
+        mHelpText = (TextView) findViewById(R.id.set_timer_help_text);
+        mConfirmButton = (Button) findViewById(R.id.timer_set_button);
+        mTimePicker = findViewById(R.id.time_duration_picker);
 
         // Disable focus on the spinners to prevent keyboard from coming up
         mNumberSpinner.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        mUnitSpinner.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
-        mTimeLapseSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mTimerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 setTimeSelectionEnabled(isChecked);
             }
@@ -114,16 +108,12 @@ public class TimeIntervalPopup extends AbstractSettingPopup {
             throw new IllegalArgumentException();
         } else if (index == 0) {
             // default choice: time lapse off
-            mTimeLapseSwitch.setChecked(false);
+            mTimerSwitch.setChecked(false);
             setTimeSelectionEnabled(false);
         } else {
-            mTimeLapseSwitch.setChecked(true);
+            mTimerSwitch.setChecked(true);
             setTimeSelectionEnabled(true);
-            int durationCount = mNumberSpinner.getMaxValue() + 1;
-            int unit = (index - 1) / durationCount;
-            int number = (index - 1) % durationCount;
-            mUnitSpinner.setValue(unit);
-            mNumberSpinner.setValue(number);
+            mNumberSpinner.setValue(index - 1);
         }
     }
 
@@ -149,9 +139,8 @@ public class TimeIntervalPopup extends AbstractSettingPopup {
     }
 
     private void updateInputState() {
-        if (mTimeLapseSwitch.isChecked()) {
-            int newId = mUnitSpinner.getValue() * (mNumberSpinner.getMaxValue() + 1)
-                    + mNumberSpinner.getValue() + 1;
+        if (mTimerSwitch.isChecked()) {
+            int newId = mNumberSpinner.getValue() + 1;
             mPreference.setValueIndex(newId);
         } else {
             mPreference.setValueIndex(0);

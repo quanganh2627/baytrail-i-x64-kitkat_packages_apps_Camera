@@ -63,11 +63,13 @@ public class RenderOverlay extends FrameLayout {
         if (renderer.handlesTouch()) {
             mTouchClients.add(0, renderer);
         }
+        renderer.layout(getLeft(), getTop(), getRight(), getBottom());
     }
 
     public void addRenderer(int pos, Renderer renderer) {
         mClients.add(pos, renderer);
         renderer.setOverlay(this);
+        renderer.layout(getLeft(), getTop(), getRight(), getBottom());
     }
 
     public void remove(Renderer renderer) {
@@ -136,9 +138,9 @@ public class RenderOverlay extends FrameLayout {
         }
 
         @Override
-        public void layout(int left, int top, int right, int bottom) {
+        public void onLayout(boolean changed, int left, int top, int right, int bottom) {
             adjustPosition();
-            super.layout(left,  top, right, bottom);
+            super.onLayout(changed, left,  top, right, bottom);
             if (mClients == null) return;
             for (Renderer renderer : mClients) {
                 renderer.layout(left, top, right, bottom);

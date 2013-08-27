@@ -35,6 +35,14 @@
     <string name="pref_camera_id_entry_back" msgid="5142699735103692485">"후방"</string>
     <string name="pref_camera_id_entry_front" msgid="5668958706828733669">"전방"</string>
     <string name="pref_camera_recordlocation_title" msgid="371208839215448917">"위치 저장"</string>
+    <string name="pref_camera_timer_title" msgid="3105232208281893389">"카운트다운 타이머"</string>
+  <plurals name="pref_camera_timer_entry">
+    <item quantity="one" msgid="1654523400981245448">"1초"</item>
+    <item quantity="other" msgid="6455381617076792481">"%d초"</item>
+  </plurals>
+    <!-- no translation found for pref_camera_timer_sound_default (7066624532144402253) -->
+    <skip />
+    <string name="pref_camera_timer_sound_title" msgid="2469008631966169105">"카운트다운하는 동안 신호음 울리기"</string>
     <string name="setting_off" msgid="4480039384202951946">"사용 안함"</string>
     <string name="setting_on" msgid="8602246224465348901">"사용"</string>
     <string name="pref_video_quality_title" msgid="8245379279801096922">"동영상 화질"</string>
@@ -103,6 +111,8 @@
     <string name="effect_backdropper_gallery" msgid="959158844620991906">"내 동영상"</string>
     <string name="bg_replacement_message" msgid="9184270738916564608">"기기를 내려놓습니다."\n"잠시 동안 시야를 벗어납니다."</string>
     <string name="video_snapshot_hint" msgid="18833576851372483">"녹화 중에 사진을 찍으려면 터치하세요."</string>
+    <string name="video_recording_started" msgid="4132915454417193503">"동영상 녹화가 시작되었습니다."</string>
+    <string name="video_recording_stopped" msgid="5086919511555808580">"동영상 녹화가 중지되었습니다."</string>
     <string name="disable_video_snapshot_hint" msgid="4957723267826476079">"특수 효과가 설정되어 있으면 동영상 스냅샷이 사용 중지됩니다."</string>
     <string name="clear_effects" msgid="5485339175014139481">"효과 제거"</string>
     <string name="effect_silly_faces" msgid="8107732405347155777">"웃긴 얼굴"</string>
@@ -117,7 +127,7 @@
     <string name="accessibility_zoom_control" msgid="1339909363226825709">"확대/축소 컨트롤"</string>
     <string name="accessibility_decrement" msgid="1411194318538035666">"%1$s 축소"</string>
     <string name="accessibility_increment" msgid="8447850530444401135">"%1$s 확대"</string>
-    <string name="accessibility_switch" msgid="6995966685498958895">"%1$s 전환"</string>
+    <string name="accessibility_check_box" msgid="7317447218256584181">"%1$s 확인란"</string>
     <string name="accessibility_switch_to_camera" msgid="5951340774212969461">"사진으로 전환"</string>
     <string name="accessibility_switch_to_video" msgid="4991396355234561505">"동영상으로 전환"</string>
     <string name="accessibility_switch_to_panorama" msgid="604756878371875836">"파노라마로 전환"</string>
@@ -173,6 +183,9 @@
     <string name="time_lapse_interval_set" msgid="2486386210951700943">"완료"</string>
     <string name="set_time_interval" msgid="2970567717633813771">"시간 간격 설정"</string>
     <string name="set_time_interval_help" msgid="6665849510484821483">"시간 경과 기능을 사용하지 않고 있습니다. 시간 간격을 설정하려면 \'사용\'으로 변경해 주세요."</string>
+    <string name="set_timer_help" msgid="5007708849404589472">"카운트다운 타이머가 꺼져 있습니다. 사진을 찍기 전에 카운트다운을 켜세요."</string>
+    <string name="set_duration" msgid="5578035312407161304">"시간 설정(초)"</string>
+    <string name="count_down_title_text" msgid="4976386810910453266">"사진을 찍으려면 카운트다운하세요."</string>
     <string name="remember_location_title" msgid="9060472929006917810">"사진 위치를 기록하시겠습니까?"</string>
     <string name="remember_location_prompt" msgid="724592331305808098">"촬영한 위치로 사진과 동영상에 태그를 지정하세요."\n\n"다른 앱이 저장된 이미지와 더불어 이 정보에 액세스할 수 있습니다."</string>
     <string name="remember_location_no" msgid="7541394381714894896">"아니요"</string>

@@ -35,6 +35,14 @@
     <string name="pref_camera_id_entry_back" msgid="5142699735103692485">"Назад"</string>
     <string name="pref_camera_id_entry_front" msgid="5668958706828733669">"Перад"</string>
     <string name="pref_camera_recordlocation_title" msgid="371208839215448917">"Месцазнаходжанне крамы"</string>
+    <string name="pref_camera_timer_title" msgid="3105232208281893389">"Таймер зваротнага адлiку"</string>
+  <plurals name="pref_camera_timer_entry">
+    <item quantity="one" msgid="1654523400981245448">"1 секунда"</item>
+    <item quantity="other" msgid="6455381617076792481">"%d секунд"</item>
+  </plurals>
+    <!-- no translation found for pref_camera_timer_sound_default (7066624532144402253) -->
+    <skip />
+    <string name="pref_camera_timer_sound_title" msgid="2469008631966169105">"Гукавы сігнал падчас зваротнага адлiку"</string>
     <string name="setting_off" msgid="4480039384202951946">"Адключана"</string>
     <string name="setting_on" msgid="8602246224465348901">"Уключана"</string>
     <string name="pref_video_quality_title" msgid="8245379279801096922">"Якасць відэа"</string>
@@ -103,6 +111,8 @@
     <string name="effect_backdropper_gallery" msgid="959158844620991906">"Вашы відэа"</string>
     <string name="bg_replacement_message" msgid="9184270738916564608">"Наладзьце прыладу."\n"На хвіліну выйдзіце з поля зроку."</string>
     <string name="video_snapshot_hint" msgid="18833576851372483">"Націсніце, каб зрабiць здымак падчас запісу."</string>
+    <string name="video_recording_started" msgid="4132915454417193503">"Відэазапіс пачаўся."</string>
+    <string name="video_recording_stopped" msgid="5086919511555808580">"Вiдэазапiс спыніўся."</string>
     <string name="disable_video_snapshot_hint" msgid="4957723267826476079">"Капiяванне кадра з відэа адключаецца, калі ўключаны спецэфекты."</string>
     <string name="clear_effects" msgid="5485339175014139481">"Выдалiць эфекты"</string>
     <string name="effect_silly_faces" msgid="8107732405347155777">"ПАЦЕШНЫЯ СМАЙЛIКI"</string>
@@ -117,7 +127,7 @@
     <string name="accessibility_zoom_control" msgid="1339909363226825709">"Кiраванне маштабаваннем..."</string>
     <string name="accessibility_decrement" msgid="1411194318538035666">"Памяншэнне на %1$s"</string>
     <string name="accessibility_increment" msgid="8447850530444401135">"Павелічэнне %1$s"</string>
-    <string name="accessibility_switch" msgid="6995966685498958895">"Пераключэнне %1$s"</string>
+    <string name="accessibility_check_box" msgid="7317447218256584181">"Поле %1$s"</string>
     <string name="accessibility_switch_to_camera" msgid="5951340774212969461">"Пераключыцца на фота"</string>
     <string name="accessibility_switch_to_video" msgid="4991396355234561505">"Пераключыцца ў рэжым відэа"</string>
     <string name="accessibility_switch_to_panorama" msgid="604756878371875836">"Пераключыцца ў рэжым панарамы"</string>
@@ -173,6 +183,9 @@
     <string name="time_lapse_interval_set" msgid="2486386210951700943">"Гатова"</string>
     <string name="set_time_interval" msgid="2970567717633813771">"Задаць iнтэрвал часу"</string>
     <string name="set_time_interval_help" msgid="6665849510484821483">"Функцыя \"Часавы інтэрвал\" выключана. Уключыце яе."</string>
+    <string name="set_timer_help" msgid="5007708849404589472">"Таймер выключаны. Уключыце на iм зваротны адлік перад здымкай."</string>
+    <string name="set_duration" msgid="5578035312407161304">"Усталяваць час у секундах"</string>
+    <string name="count_down_title_text" msgid="4976386810910453266">"Зваротны адлiк, каб зрабіць здымак"</string>
     <string name="remember_location_title" msgid="9060472929006917810">"Запамiнаць месца, дзе зроблена фота?"</string>
     <string name="remember_location_prompt" msgid="724592331305808098">"Адзначце на вашых фатаграфіях і відэа месцы, у якіх яны былі створаныя."\n\n"Іншыя праграмы могуць атрымаць доступ да гэтай інфармацыі разам з захаванымі выявамі."</string>
     <string name="remember_location_no" msgid="7541394381714894896">"Не, дзякуй"</string>

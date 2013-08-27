@@ -16,9 +16,6 @@
 
 package com.android.camera;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -32,9 +29,11 @@ import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.util.Log;
 
 import com.android.camera.ui.CameraSwitcher;
 import com.android.gallery3d.app.PhotoPage;
+import com.android.gallery3d.common.ApiHelper;
 import com.android.gallery3d.util.LightCycleHelper;
 
 public class CameraActivity extends ActivityBase
@@ -69,9 +68,10 @@ public class CameraActivity extends ActivityBase
 
     @Override
     public void onCreate(Bundle state) {
+        Log.d(TAG, "Performance Google camera onCreate now.");
         super.onCreate(state);
         setContentView(R.layout.camera_main);
-        mFrame =(FrameLayout) findViewById(R.id.main_content);
+        mFrame = (FrameLayout) findViewById(R.id.main_content);
         mDrawables = new Drawable[DRAW_IDS.length];
         for (int i = 0; i < DRAW_IDS.length; i++) {
             mDrawables[i] = getResources().getDrawable(DRAW_IDS[i]);
@@ -95,17 +95,24 @@ public class CameraActivity extends ActivityBase
         mShutterSwitcher = findViewById(R.id.camera_shutter_switcher);
         mShutter = (ShutterButton) findViewById(R.id.shutter_button);
         mSwitcher = (CameraSwitcher) findViewById(R.id.camera_switcher);
-        mSwitcher.setDrawIds(DRAW_IDS);
-        int[] drawids = new int[LightCycleHelper.hasLightCycleCapture(this)
-                                ? DRAW_IDS.length : DRAW_IDS.length - 1];
+        int totaldrawid = (LightCycleHelper.hasLightCycleCapture(this)
+                                ? DRAW_IDS.length : DRAW_IDS.length - 1);
+        if (!ApiHelper.HAS_OLD_PANORAMA) totaldrawid--;
+
+        int[] drawids = new int[totaldrawid];
+        int[] moduleids = new int[totaldrawid];
         int ix = 0;
         for (int i = 0; i < mDrawables.length; i++) {
+            if (i == PANORAMA_MODULE_INDEX && !ApiHelper.HAS_OLD_PANORAMA) {
+                continue; // not enabled, so don't add to UI
+            }
             if (i == LIGHTCYCLE_MODULE_INDEX && !LightCycleHelper.hasLightCycleCapture(this)) {
                 continue; // not enabled, so don't add to UI
             }
+            moduleids[ix] = i;
             drawids[ix++] = DRAW_IDS[i];
         }
-        mSwitcher.setDrawIds(drawids);
+        mSwitcher.setIds(moduleids, drawids);
         mSwitcher.setSwitchListener(this);
         mSwitcher.setCurrentIndex(mCurrentModuleIndex);
     }
@@ -127,78 +134,33 @@ public class CameraActivity extends ActivityBase
         }
     }
 
-    private ObjectAnimator mCameraSwitchAnimator;
-
     @Override
-    public void onCameraSelected(final int i) {
+    public void onCameraSelected(int i) {
         if (mPaused) return;
         if (i != mCurrentModuleIndex) {
             mPaused = true;
-            CameraScreenNail screenNail = getCameraScreenNail();
-            if (screenNail != null) {
-                if (mCameraSwitchAnimator != null && mCameraSwitchAnimator.isRunning()) {
-                    mCameraSwitchAnimator.cancel();
-                }
-                mCameraSwitchAnimator = ObjectAnimator.ofFloat(
-                        screenNail, "alpha", screenNail.getAlpha(), 0f);
-                mCameraSwitchAnimator.addListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        super.onAnimationEnd(animation);
-                        doChangeCamera(i);
-                    }
-                });
-                mCameraSwitchAnimator.start();
-            } else {
-                doChangeCamera(i);
+            boolean canReuse = canReuseScreenNail();
+            CameraHolder.instance().keep();
+            closeModule(mCurrentModule);
+            mCurrentModuleIndex = i;
+            switch (i) {
+                case VIDEO_MODULE_INDEX:
+                    mCurrentModule = new VideoModule();
+                    break;
+                case PHOTO_MODULE_INDEX:
+                    mCurrentModule = new PhotoModule();
+                    break;
+                case PANORAMA_MODULE_INDEX:
+                    mCurrentModule = new PanoramaModule();
+                    break;
+                case LIGHTCYCLE_MODULE_INDEX:
+                    mCurrentModule = LightCycleHelper.createPanoramaModule();
+                    break;
             }
-
+            openModule(mCurrentModule, canReuse);
+            mCurrentModule.onOrientationChanged(mLastRawOrientation);
         }
     }
-
-    private void doChangeCamera(int i) {
-        boolean canReuse = canReuseScreenNail();
-        CameraHolder.instance().keep();
-        closeModule(mCurrentModule);
-        mCurrentModuleIndex = i;
-        switch (i) {
-            case VIDEO_MODULE_INDEX:
-                mCurrentModule = new VideoModule();
-                break;
-            case PHOTO_MODULE_INDEX:
-                mCurrentModule = new PhotoModule();
-                break;
-            case PANORAMA_MODULE_INDEX:
-                mCurrentModule = new PanoramaModule();
-                break;
-            case LIGHTCYCLE_MODULE_INDEX:
-                mCurrentModule = LightCycleHelper.createPanoramaModule();
-                break;
-        }
-        openModule(mCurrentModule, canReuse);
-        mCurrentModule.onOrientationChanged(mLastRawOrientation);
-        getCameraScreenNail().setAlpha(0f);
-        getCameraScreenNail().setOnFrameDrawnOneShot(mOnFrameDrawn);
-    }
-
-    private Runnable mOnFrameDrawn = new Runnable() {
-
-        @Override
-        public void run() {
-            runOnUiThread(mFadeInCameraScreenNail);
-        }
-    };
-
-    private Runnable mFadeInCameraScreenNail = new Runnable() {
-
-        @Override
-        public void run() {
-            mCameraSwitchAnimator = ObjectAnimator.ofFloat(
-                    getCameraScreenNail(), "alpha", 0f, 1f);
-            mCameraSwitchAnimator.setStartDelay(50);
-            mCameraSwitchAnimator.start();
-        }
-    };
 
     @Override
     public void onShowSwitcherPopup() {
@@ -426,7 +388,8 @@ public class CameraActivity extends ActivityBase
 
     private boolean canReuseScreenNail() {
         return mCurrentModuleIndex == PHOTO_MODULE_INDEX
-                || mCurrentModuleIndex == VIDEO_MODULE_INDEX;
+                || mCurrentModuleIndex == VIDEO_MODULE_INDEX
+                || mCurrentModuleIndex == LIGHTCYCLE_MODULE_INDEX;
     }
 
     @Override
@@ -437,32 +400,32 @@ public class CameraActivity extends ActivityBase
     // Accessor methods for getting latency times used in performance testing
     public long getAutoFocusTime() {
         return (mCurrentModule instanceof PhotoModule) ?
-                ((PhotoModule)mCurrentModule).mAutoFocusTime : -1;
+                ((PhotoModule) mCurrentModule).mAutoFocusTime : -1;
     }
 
     public long getShutterLag() {
         return (mCurrentModule instanceof PhotoModule) ?
-                ((PhotoModule)mCurrentModule).mShutterLag : -1;
+                ((PhotoModule) mCurrentModule).mShutterLag : -1;
     }
 
     public long getShutterToPictureDisplayedTime() {
         return (mCurrentModule instanceof PhotoModule) ?
-                ((PhotoModule)mCurrentModule).mShutterToPictureDisplayedTime : -1;
+                ((PhotoModule) mCurrentModule).mShutterToPictureDisplayedTime : -1;
     }
 
     public long getPictureDisplayedToJpegCallbackTime() {
         return (mCurrentModule instanceof PhotoModule) ?
-                ((PhotoModule)mCurrentModule).mPictureDisplayedToJpegCallbackTime : -1;
+                ((PhotoModule) mCurrentModule).mPictureDisplayedToJpegCallbackTime : -1;
     }
 
     public long getJpegCallbackFinishTime() {
         return (mCurrentModule instanceof PhotoModule) ?
-                ((PhotoModule)mCurrentModule).mJpegCallbackFinishTime : -1;
+                ((PhotoModule) mCurrentModule).mJpegCallbackFinishTime : -1;
     }
 
     public long getCaptureStartTime() {
         return (mCurrentModule instanceof PhotoModule) ?
-                ((PhotoModule)mCurrentModule).mCaptureStartTime : -1;
+                ((PhotoModule) mCurrentModule).mCaptureStartTime : -1;
     }
 
     public boolean isRecording() {

@@ -35,7 +35,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.hardware.Camera.Parameters;
 import android.hardware.Camera.Size;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -59,15 +58,20 @@ import com.android.camera.ui.LayoutChangeNotifier;
 import com.android.camera.ui.LayoutNotifyView;
 import com.android.camera.ui.PopupManager;
 import com.android.camera.ui.Rotatable;
-import com.android.camera.ui.RotateLayout;
 import com.android.gallery3d.common.ApiHelper;
+import com.android.gallery3d.exif.ExifData;
+import com.android.gallery3d.exif.ExifInvalidFormatException;
+import com.android.gallery3d.exif.ExifOutputStream;
+import com.android.gallery3d.exif.ExifReader;
+import com.android.gallery3d.exif.ExifTag;
 import com.android.gallery3d.ui.GLRootView;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.io.InputStream;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -86,8 +90,10 @@ public class PanoramaModule implements CameraModule,
 
     private static final int MSG_LOW_RES_FINAL_MOSAIC_READY = 1;
     private static final int MSG_GENERATE_FINAL_MOSAIC_ERROR = 2;
-    private static final int MSG_RESET_TO_PREVIEW = 3;
+    private static final int MSG_END_DIALOG_RESET_TO_PREVIEW = 3;
     private static final int MSG_CLEAR_SCREEN_DELAY = 4;
+    private static final int MSG_CONFIG_MOSAIC_PREVIEW = 5;
+    private static final int MSG_RESET_TO_PREVIEW = 6;
 
     private static final int SCREEN_DELAY = 2 * 60 * 1000;
 
@@ -96,11 +102,6 @@ public class PanoramaModule implements CameraModule,
     private static final int PREVIEW_ACTIVE = 1;
     private static final int CAPTURE_STATE_VIEWFINDER = 0;
     private static final int CAPTURE_STATE_MOSAIC = 1;
-
-    private static final String GPS_DATE_FORMAT_STR = "yyyy:MM:dd";
-    private static final String GPS_TIME_FORMAT_STR = "kk/1,mm/1,ss/1";
-    private static final String DATETIME_FORMAT_STR = "yyyy:MM:dd kk:mm:ss";
-
     // The unit of speed is degrees per frame.
     private static final float PANNING_SPEED_THRESHOLD = 2.5f;
 
@@ -120,13 +121,10 @@ public class PanoramaModule implements CameraModule,
     private View mLeftIndicator;
     private View mRightIndicator;
     private MosaicPreviewRenderer mMosaicPreviewRenderer;
+    private Object mRendererLock = new Object();
     private TextView mTooFastPrompt;
     private ShutterButton mShutterButton;
     private Object mWaitObject = new Object();
-
-    private DateFormat mGPSDateStampFormat;
-    private DateFormat mGPSTimeStampFormat;
-    private DateFormat mDateTimeStampFormat;
 
     private String mPreparePreviewString;
     private String mDialogTitle;
@@ -136,6 +134,7 @@ public class PanoramaModule implements CameraModule,
 
     private int mIndicatorColor;
     private int mIndicatorColorFast;
+    private int mReviewBackground;
 
     private boolean mUsingFrontCamera;
     private int mPreviewWidth;
@@ -176,6 +175,8 @@ public class PanoramaModule implements CameraModule,
     private View mRootView;
     private CameraProxy mCameraDevice;
     private boolean mPaused;
+    private boolean mIsCreatingRenderer;
+    private boolean mIsConfigPending;
 
     private class MosaicJpeg {
         public MosaicJpeg(byte[] data, int width, int height) {
@@ -224,7 +225,7 @@ public class PanoramaModule implements CameraModule,
     @Override
     public void init(CameraActivity activity, View parent, boolean reuseScreenNail) {
         mActivity = activity;
-        mRootView = (ViewGroup) parent;
+        mRootView = parent;
 
         createContentView();
 
@@ -243,26 +244,30 @@ public class PanoramaModule implements CameraModule,
                 // If we call onFrameAvailable after pausing, the GL thread will crash.
                 if (mPaused) return;
 
+                MosaicPreviewRenderer renderer = null;
+                synchronized (mRendererLock) {
+                    try {
+                        while (mMosaicPreviewRenderer == null) {
+                            mRendererLock.wait();
+                        }
+                        renderer = mMosaicPreviewRenderer;
+                    } catch (InterruptedException e) {
+                        Log.e(TAG, "Unexpected interruption", e);
+                    }
+                }
                 if (mGLRootView.getVisibility() != View.VISIBLE) {
-                    mMosaicPreviewRenderer.showPreviewFrameSync();
+                    renderer.showPreviewFrameSync();
                     mGLRootView.setVisibility(View.VISIBLE);
                 } else {
                     if (mCaptureState == CAPTURE_STATE_VIEWFINDER) {
-                        mMosaicPreviewRenderer.showPreviewFrame();
+                        renderer.showPreviewFrame();
                     } else {
-                        mMosaicPreviewRenderer.alignFrameSync();
+                        renderer.alignFrameSync();
                         mMosaicFrameProcessor.processFrame();
                     }
                 }
             }
         };
-
-        mGPSDateStampFormat = new SimpleDateFormat(GPS_DATE_FORMAT_STR);
-        mGPSTimeStampFormat = new SimpleDateFormat(GPS_TIME_FORMAT_STR);
-        mDateTimeStampFormat = new SimpleDateFormat(DATETIME_FORMAT_STR);
-        TimeZone tzUTC = TimeZone.getTimeZone("UTC");
-        mGPSDateStampFormat.setTimeZone(tzUTC);
-        mGPSTimeStampFormat.setTimeZone(tzUTC);
 
         PowerManager pm = (PowerManager) mActivity.getSystemService(Context.POWER_SERVICE);
         mPartialWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Panorama");
@@ -305,7 +310,7 @@ public class PanoramaModule implements CameraModule,
                         }
                         clearMosaicFrameProcessorIfNeeded();
                         break;
-                    case MSG_RESET_TO_PREVIEW:
+                    case MSG_END_DIALOG_RESET_TO_PREVIEW:
                         onBackgroundThreadFinished();
                         resetToPreview();
                         clearMosaicFrameProcessorIfNeeded();
@@ -313,6 +318,12 @@ public class PanoramaModule implements CameraModule,
                     case MSG_CLEAR_SCREEN_DELAY:
                         mActivity.getWindow().clearFlags(WindowManager.LayoutParams.
                                 FLAG_KEEP_SCREEN_ON);
+                        break;
+                    case MSG_CONFIG_MOSAIC_PREVIEW:
+                        configMosaicPreview(msg.arg1, msg.arg2);
+                        break;
+                    case MSG_RESET_TO_PREVIEW:
+                        resetToPreview();
                         break;
                 }
             }
@@ -423,27 +434,57 @@ public class PanoramaModule implements CameraModule,
         mCameraDevice.setParameters(parameters);
     }
 
-    private void configMosaicPreview(int w, int h) {
+    private void configMosaicPreview(final int w, final int h) {
+        synchronized (mRendererLock) {
+            if (mIsCreatingRenderer) {
+                mMainHandler.removeMessages(MSG_CONFIG_MOSAIC_PREVIEW);
+                mMainHandler.obtainMessage(MSG_CONFIG_MOSAIC_PREVIEW, w, h).sendToTarget();
+                mIsConfigPending = true;
+                return;
+            }
+            mIsCreatingRenderer = true;
+            mIsConfigPending = false;
+        }
         stopCameraPreview();
         CameraScreenNail screenNail = (CameraScreenNail) mActivity.mCameraScreenNail;
         screenNail.setSize(w, h);
-        if (screenNail.getSurfaceTexture() == null) {
-            screenNail.acquireSurfaceTexture();
-        } else {
+        synchronized (mRendererLock) {
+            if (mMosaicPreviewRenderer != null) {
+                mMosaicPreviewRenderer.release();
+            }
+            mMosaicPreviewRenderer = null;
             screenNail.releaseSurfaceTexture();
             screenNail.acquireSurfaceTexture();
-            mActivity.notifyScreenNailChanged();
         }
-        boolean isLandscape = (mActivity.getResources().getConfiguration().orientation
-                == Configuration.ORIENTATION_LANDSCAPE);
-        if (mMosaicPreviewRenderer != null) mMosaicPreviewRenderer.release();
-        mMosaicPreviewRenderer = new MosaicPreviewRenderer(
-                screenNail.getSurfaceTexture(), w, h, isLandscape);
+        mActivity.notifyScreenNailChanged();
+        final boolean isLandscape = (mActivity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                CameraScreenNail screenNail = (CameraScreenNail) mActivity.mCameraScreenNail;
+                SurfaceTexture surfaceTexture = screenNail.getSurfaceTexture();
+                if (surfaceTexture == null) {
+                    synchronized (mRendererLock) {
+                        mIsConfigPending = true; // try config again later.
+                        mIsCreatingRenderer = false;
+                        mRendererLock.notifyAll();
+                        return;
+                    }
+                }
+                MosaicPreviewRenderer renderer = new MosaicPreviewRenderer(
+                        screenNail.getSurfaceTexture(), w, h, isLandscape);
+                synchronized (mRendererLock) {
+                    mMosaicPreviewRenderer = renderer;
+                    mCameraTexture = mMosaicPreviewRenderer.getInputSurfaceTexture();
 
-        mCameraTexture = mMosaicPreviewRenderer.getInputSurfaceTexture();
-        if (!mPaused && !mThreadRunning && mWaitProcessorTask == null) {
-            resetToPreview();
-        }
+                    if (!mPaused && !mThreadRunning && mWaitProcessorTask == null) {
+                        mMainHandler.sendEmptyMessage(MSG_RESET_TO_PREVIEW);
+                    }
+                    mIsCreatingRenderer = false;
+                    mRendererLock.notifyAll();
+                }
+            }
+        }).start();
     }
 
     // Receives the layout change event from the preview area. So we can set
@@ -564,7 +605,7 @@ public class PanoramaModule implements CameraModule,
                                 MSG_LOW_RES_FINAL_MOSAIC_READY, bitmap));
                     } else {
                         mMainHandler.sendMessage(mMainHandler.obtainMessage(
-                                MSG_RESET_TO_PREVIEW));
+                                MSG_END_DIALOG_RESET_TO_PREVIEW));
                     }
                 }
             });
@@ -650,6 +691,7 @@ public class PanoramaModule implements CameraModule,
 
         mReviewLayout = mRootView.findViewById(R.id.pano_review_layout);
         mReview = (ImageView) mRootView.findViewById(R.id.pano_reviewarea);
+        mReview.setBackgroundColor(mReviewBackground);
         View cancelButton = mRootView.findViewById(R.id.pano_review_cancel_button);
         cancelButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -675,6 +717,7 @@ public class PanoramaModule implements CameraModule,
         Resources appRes = mActivity.getResources();
         mCaptureLayout = (LinearLayout) mRootView.findViewById(R.id.camera_app_root);
         mIndicatorColor = appRes.getColor(R.color.pano_progress_indication);
+        mReviewBackground = appRes.getColor(R.color.review_background);
         mIndicatorColorFast = appRes.getColor(R.color.pano_progress_indication_fast);
         mPanoLayout = (ViewGroup) mRootView.findViewById(R.id.pano_layout);
         mRotateDialog = new RotateDialogController(mActivity, R.layout.rotate_dialog);
@@ -765,7 +808,7 @@ public class PanoramaModule implements CameraModule,
                 }
 
                 if (jpeg == null) {  // Cancelled by user.
-                    mMainHandler.sendEmptyMessage(MSG_RESET_TO_PREVIEW);
+                    mMainHandler.sendEmptyMessage(MSG_END_DIALOG_RESET_TO_PREVIEW);
                 } else if (!jpeg.isValid) {  // Error when generating mosaic.
                     mMainHandler.sendEmptyMessage(MSG_GENERATE_FINAL_MOSAIC_ERROR);
                 } else {
@@ -776,7 +819,7 @@ public class PanoramaModule implements CameraModule,
                         Util.broadcastNewPicture(mActivity, uri);
                     }
                     mMainHandler.sendMessage(
-                            mMainHandler.obtainMessage(MSG_RESET_TO_PREVIEW));
+                            mMainHandler.obtainMessage(MSG_END_DIALOG_RESET_TO_PREVIEW));
                 }
             }
         });
@@ -813,6 +856,7 @@ public class PanoramaModule implements CameraModule,
         mShutterButton.setImageResource(R.drawable.btn_new_shutter);
         mReviewLayout.setVisibility(View.GONE);
         mPanoProgressBar.setVisibility(View.GONE);
+        mGLRootView.setVisibility(View.VISIBLE);
         // Orientation change will trigger onLayoutChange->configMosaicPreview->
         // resetToPreview. Do not show the capture UI in film strip.
         if (mActivity.mShowCameraAppView) {
@@ -857,7 +901,6 @@ public class PanoramaModule implements CameraModule,
             }
         }
 
-        mGLRootView.setVisibility(View.GONE);
         mCaptureLayout.setVisibility(View.GONE);
         mReviewLayout.setVisibility(View.VISIBLE);
     }
@@ -867,22 +910,32 @@ public class PanoramaModule implements CameraModule,
             String filename = PanoUtil.createName(
                     mActivity.getResources().getString(R.string.pano_file_name_format), mTimeTaken);
             String filepath = Storage.generateFilepath(filename);
-            Storage.writeFile(filepath, jpegData);
 
-            // Add Exif tags.
+            ExifOutputStream out = null;
+            InputStream is = null;
             try {
-                ExifInterface exif = new ExifInterface(filepath);
-                exif.setAttribute(ExifInterface.TAG_GPS_DATESTAMP,
-                        mGPSDateStampFormat.format(mTimeTaken));
-                exif.setAttribute(ExifInterface.TAG_GPS_TIMESTAMP,
-                        mGPSTimeStampFormat.format(mTimeTaken));
-                exif.setAttribute(ExifInterface.TAG_DATETIME,
-                        mDateTimeStampFormat.format(mTimeTaken));
-                exif.setAttribute(ExifInterface.TAG_ORIENTATION,
-                        getExifOrientation(orientation));
-                exif.saveAttributes();
+                is = new ByteArrayInputStream(jpegData);
+                ExifReader reader = new ExifReader();
+                ExifData data = reader.read(is);
+
+                // Add Exif tags.
+                data.addGpsDateTimeStampTag(mTimeTaken);
+                data.addDateTimeStampTag(ExifTag.TAG_DATE_TIME, mTimeTaken, TimeZone.getDefault());
+                data.addTag(ExifTag.TAG_ORIENTATION).
+                        setValue(getExifOrientation(orientation));
+
+                out = new ExifOutputStream(new FileOutputStream(filepath));
+                out.setExifData(data);
+                out.write(jpegData);
             } catch (IOException e) {
                 Log.e(TAG, "Cannot set EXIF for " + filepath, e);
+                Storage.writeFile(filepath, jpegData);
+            } catch (ExifInvalidFormatException e) {
+                Log.e(TAG, "Cannot set EXIF for " + filepath, e);
+                Storage.writeFile(filepath, jpegData);
+            } finally {
+                Util.closeSilently(out);
+                Util.closeSilently(is);
             }
 
             int jpegLength = (int) (new File(filepath).length());
@@ -892,16 +945,16 @@ public class PanoramaModule implements CameraModule,
         return null;
     }
 
-    private static String getExifOrientation(int orientation) {
+    private static int getExifOrientation(int orientation) {
         switch (orientation) {
             case 0:
-                return String.valueOf(ExifInterface.ORIENTATION_NORMAL);
+                return ExifTag.Orientation.TOP_LEFT;
             case 90:
-                return String.valueOf(ExifInterface.ORIENTATION_ROTATE_90);
+                return ExifTag.Orientation.RIGHT_TOP;
             case 180:
-                return String.valueOf(ExifInterface.ORIENTATION_ROTATE_180);
+                return ExifTag.Orientation.BOTTOM_LEFT;
             case 270:
-                return String.valueOf(ExifInterface.ORIENTATION_ROTATE_270);
+                return ExifTag.Orientation.RIGHT_BOTTOM;
             default:
                 throw new AssertionError("invalid: " + orientation);
         }
@@ -943,13 +996,15 @@ public class PanoramaModule implements CameraModule,
         }
 
         releaseCamera();
-        mCameraTexture = null;
+        synchronized (mRendererLock) {
+            mCameraTexture = null;
 
-        // The preview renderer might not have a chance to be initialized before
-        // onPause().
-        if (mMosaicPreviewRenderer != null) {
-            mMosaicPreviewRenderer.release();
-            mMosaicPreviewRenderer = null;
+            // The preview renderer might not have a chance to be initialized
+            // before onPause().
+            if (mMosaicPreviewRenderer != null) {
+                mMosaicPreviewRenderer.release();
+                mMosaicPreviewRenderer = null;
+            }
         }
 
         clearMosaicFrameProcessorIfNeeded();
@@ -963,9 +1018,7 @@ public class PanoramaModule implements CameraModule,
             mSoundPlayer = null;
         }
         CameraScreenNail screenNail = (CameraScreenNail) mActivity.mCameraScreenNail;
-        if (screenNail.getSurfaceTexture() != null) {
-            screenNail.releaseSurfaceTexture();
-        }
+        screenNail.releaseSurfaceTexture();
         System.gc();
     }
 
@@ -1032,7 +1085,7 @@ public class PanoramaModule implements CameraModule,
             mActivity.hideUI();
             mWaitProcessorTask = new WaitProcessorTask().execute();
         } else {
-            if (!mThreadRunning) mGLRootView.setVisibility(View.VISIBLE);
+            mGLRootView.setVisibility(View.VISIBLE);
             // Camera must be initialized before MosaicFrameProcessor is
             // initialized. The preview size has to be decided by camera device.
             initMosaicFrameProcessorIfNeeded();
@@ -1108,20 +1161,21 @@ public class PanoramaModule implements CameraModule,
         // in a row. mCameraTexture can be null after pressing home during
         // mosaic generation and coming back. Preview will be started later in
         // onLayoutChange->configMosaicPreview. This also reduces the latency.
-        if (mCameraTexture == null) return;
+        synchronized (mRendererLock) {
+            if (mCameraTexture == null) return;
 
-        // If we're previewing already, stop the preview first (this will blank
-        // the screen).
-        if (mCameraState != PREVIEW_STOPPED) stopCameraPreview();
+            // If we're previewing already, stop the preview first (this will
+            // blank the screen).
+            if (mCameraState != PREVIEW_STOPPED) stopCameraPreview();
 
-        // Set the display orientation to 0, so that the underlying mosaic library
-        // can always get undistorted mPreviewWidth x mPreviewHeight image data
-        // from SurfaceTexture.
-        mCameraDevice.setDisplayOrientation(0);
+            // Set the display orientation to 0, so that the underlying mosaic
+            // library can always get undistorted mPreviewWidth x mPreviewHeight
+            // image data from SurfaceTexture.
+            mCameraDevice.setDisplayOrientation(0);
 
-        if (mCameraTexture != null) mCameraTexture.setOnFrameAvailableListener(this);
-        mCameraDevice.setPreviewTextureAsync(mCameraTexture);
-
+            mCameraTexture.setOnFrameAvailableListener(this);
+            mCameraDevice.setPreviewTextureAsync(mCameraTexture);
+        }
         mCameraDevice.startPreviewAsync();
         mCameraState = PREVIEW_ACTIVE;
     }
@@ -1213,7 +1267,20 @@ public class PanoramaModule implements CameraModule,
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        return false;
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_FOCUS:
+                if (event.getRepeatCount() == 0) {
+                    onShutterButtonFocus(true);
+                }
+                return true;
+            case KeyEvent.KEYCODE_CAMERA:
+                if (event.getRepeatCount() == 0) {
+                    onShutterButtonClick();
+                }
+                return true;
+            default:
+                return false;
+        }
     }
 
     @Override
