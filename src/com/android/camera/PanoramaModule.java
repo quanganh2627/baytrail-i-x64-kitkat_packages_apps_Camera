@@ -572,6 +572,7 @@ public class PanoramaModule implements CameraModule,
     void setupProgressDirectionMatrix() {
         int degrees = Util.getDisplayRotation(mActivity);
         int cameraId = CameraHolder.instance().getBackCameraId();
+        if (cameraId == -1) cameraId = 0;
         int orientation = Util.getDisplayOrientation(degrees, cameraId);
         mProgressDirectionMatrix.reset();
         mProgressDirectionMatrix.postRotate(orientation);
