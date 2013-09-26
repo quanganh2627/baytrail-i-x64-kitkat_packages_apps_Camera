@@ -2086,6 +2086,28 @@ public class PhotoModule
         }
         Log.v(TAG, "Preview size is " + optimalSize.width + "x" + optimalSize.height);
 
+        // updateCameraScreenNailSize
+        if (ApiHelper.HAS_SURFACE_TEXTURE && mSurfaceTexture != null) {
+            int width, height;
+            if (mCameraDisplayOrientation % 180 == 0) {
+                width = optimalSize.width;
+                height = optimalSize.height;
+            } else {
+                width = optimalSize.height;
+                height = optimalSize.width;
+            }
+
+            CameraScreenNail screenNail = (CameraScreenNail) mActivity.mCameraScreenNail;
+            int oldWidth = screenNail.getWidth();
+            int oldHeight = screenNail.getHeight();
+
+            if (oldWidth != width || oldHeight != height) {
+                screenNail.setSize(width, height);
+                screenNail.enableAspectRatioClamping();
+                mActivity.notifyScreenNailChanged();
+            }
+        }
+
         // Since changing scene mode may change supported values, set scene mode
         // first. HDR is a scene mode. To promote it in UI, it is stored in a
         // separate preference.
