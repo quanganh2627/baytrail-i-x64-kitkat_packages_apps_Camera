@@ -317,10 +317,6 @@
     <string name="accessibility_camera_picker">Front and back camera switch</string>
     <!-- The mode picker to switch between camera, video and panorama. [CHAR LIMIT = NONE] -->
     <string name="accessibility_mode_picker">Camera, video, or panorama selector</string>
-    <!-- The Setting button of camera & video -->
-    <string name="camera_video_setting">Camera, video setting</string>
-    <!--main content-->
-    <string name="main_content">Main content</string>
     <!-- The button to switch to the second-level indicators of the camera settings. [CHAR LIMIT = NONE] -->
     <string name="accessibility_second_level_indicators">More setting controls</string>
     <!-- The button to back to the first-level indicators of the camera settings. [CHAR LIMIT = NONE] -->

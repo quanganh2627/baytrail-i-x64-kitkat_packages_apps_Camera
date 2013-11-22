@@ -44,11 +44,15 @@ ifeq ($(TARGET_ARCH), arm)
         LOCAL_SDK_VERSION := 9
 endif
 
+ifeq ($(TARGET_ARCH), x86)
+        LOCAL_SDK_VERSION := 9
+endif
+
 ifeq ($(TARGET_ARCH), mips)
         LOCAL_SDK_VERSION := 9
 endif
 
-LOCAL_SHARED_LIBRARIES := liblog libGLESv2
+LOCAL_LDFLAGS := -llog -lGLESv2
 
 LOCAL_MODULE_TAGS := optional
 
