@@ -437,6 +437,10 @@ public class PhotoModule
                 case OPEN_CAMERA_FAIL: {
                     mCameraStartUpThread = null;
                     mOpenCameraFail = true;
+                    if (isStillImageCameraSourceIntent()) {
+                        Log.i(TAG, "Open Camera Failed in StillImageCameraSource & finish the activity");
+                        mActivity.finish();
+                    }
                     Util.showErrorAndFinish(mActivity,
                             R.string.cannot_connect_camera);
                     break;
@@ -2082,6 +2086,28 @@ public class PhotoModule
         }
         Log.v(TAG, "Preview size is " + optimalSize.width + "x" + optimalSize.height);
 
+        // updateCameraScreenNailSize
+        if (ApiHelper.HAS_SURFACE_TEXTURE && mSurfaceTexture != null) {
+            int width, height;
+            if (mCameraDisplayOrientation % 180 == 0) {
+                width = optimalSize.width;
+                height = optimalSize.height;
+            } else {
+                width = optimalSize.height;
+                height = optimalSize.width;
+            }
+
+            CameraScreenNail screenNail = (CameraScreenNail) mActivity.mCameraScreenNail;
+            int oldWidth = screenNail.getWidth();
+            int oldHeight = screenNail.getHeight();
+
+            if (oldWidth != width || oldHeight != height) {
+                screenNail.setSize(width, height);
+                screenNail.enableAspectRatioClamping();
+                mActivity.notifyScreenNailChanged();
+            }
+        }
+
         // Since changing scene mode may change supported values, set scene mode
         // first. HDR is a scene mode. To promote it in UI, it is stored in a
         // separate preference.
@@ -2161,7 +2187,10 @@ public class PhotoModule
 
             // Set focus mode.
             mFocusManager.overrideFocusMode(null);
-            mParameters.setFocusMode(mFocusManager.getFocusMode());
+            String focusMode = mFocusManager.getFocusMode();
+            if (focusMode != null) {
+                mParameters.setFocusMode(focusMode);
+            }
         } else {
             mFocusManager.overrideFocusMode(mParameters.getFocusMode());
         }
@@ -2232,6 +2261,12 @@ public class PhotoModule
         String action = mActivity.getIntent().getAction();
         return (MediaStore.ACTION_IMAGE_CAPTURE.equals(action)
                 || ActivityBase.ACTION_IMAGE_CAPTURE_SECURE.equals(action));
+    }
+
+    private boolean isStillImageCameraSourceIntent() {
+        String action = mActivity.getIntent().getAction();
+        return (MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA.equals(action)
+            || MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA_SECURE.equals(action));
     }
 
     private void setupCaptureParams() {

@@ -34,15 +34,15 @@
     <string name="pref_camera_id_title" msgid="4040791582294635851">"Chagua kamera"</string>
     <string name="pref_camera_id_entry_back" msgid="5142699735103692485">"Nyuma"</string>
     <string name="pref_camera_id_entry_front" msgid="5668958706828733669">"Mbele"</string>
-    <string name="pref_camera_recordlocation_title" msgid="371208839215448917">"Mahali pa hifadhi"</string>
-    <string name="pref_camera_timer_title" msgid="3105232208281893389">"Kipima muda cha kuhesabu"</string>
+    <string name="pref_camera_recordlocation_title" msgid="371208839215448917">"Rekodi mahali"</string>
+    <string name="pref_camera_timer_title" msgid="3105232208281893389">"Kipima muda"</string>
   <plurals name="pref_camera_timer_entry">
     <item quantity="one" msgid="1654523400981245448">"Sekunde 1"</item>
     <item quantity="other" msgid="6455381617076792481">"Sekunde %d"</item>
   </plurals>
     <!-- no translation found for pref_camera_timer_sound_default (7066624532144402253) -->
     <skip />
-    <string name="pref_camera_timer_sound_title" msgid="2469008631966169105">"Toa mlio wakati wa kuhesabu"</string>
+    <string name="pref_camera_timer_sound_title" msgid="2469008631966169105">"Toa mlio inapohesabu"</string>
     <string name="setting_off" msgid="4480039384202951946">"Imezimwa"</string>
     <string name="setting_on" msgid="8602246224465348901">"Imewashwa"</string>
     <string name="pref_video_quality_title" msgid="8245379279801096922">"Ubora wa video"</string>
@@ -64,7 +64,7 @@
     <string name="pref_camera_focusmode_entry_auto" msgid="7374820710300362457">"Otomatiki"</string>
     <string name="pref_camera_focusmode_entry_infinity" msgid="3413922419264967552">"Pasipo mwisho"</string>
     <string name="pref_camera_focusmode_entry_macro" msgid="4424489110551866161">"Makro"</string>
-    <string name="pref_camera_flashmode_title" msgid="2287362477238791017">"Hali ya mweka"</string>
+    <string name="pref_camera_flashmode_title" msgid="2287362477238791017">"Hali ya mmweko"</string>
     <string name="pref_camera_flashmode_entry_auto" msgid="7288383434237457709">"Otomatiki"</string>
     <string name="pref_camera_flashmode_entry_on" msgid="5330043918845197616">"Washa"</string>
     <string name="pref_camera_flashmode_entry_off" msgid="867242186958805761">"Zima"</string>
@@ -74,7 +74,7 @@
     <string name="pref_camera_whitebalance_entry_daylight" msgid="2534757270149561027">"Mwangaza wa mchana"</string>
     <string name="pref_camera_whitebalance_entry_fluorescent" msgid="2435332872847454032">"Kiakisi mwanga"</string>
     <string name="pref_camera_whitebalance_entry_cloudy" msgid="3531996716997959326">"Mawingu"</string>
-    <string name="pref_camera_scenemode_title" msgid="1420535844292504016">"gumzo ya mandhari"</string>
+    <string name="pref_camera_scenemode_title" msgid="1420535844292504016">"Hali ya mandhari"</string>
     <string name="pref_camera_scenemode_entry_auto" msgid="7113995286836658648">"Otomatiki"</string>
     <string name="pref_camera_scenemode_entry_hdr" msgid="2923388802899511784">"HDR"</string>
     <string name="pref_camera_scenemode_entry_action" msgid="616748587566110484">"Kitendo"</string>
@@ -91,10 +91,10 @@
     <string name="video_reach_size_limit" msgid="6179877322015552390">"Upeo wa ukubwa umefikiwa."</string>
     <string name="pano_too_fast_prompt" msgid="2823839093291374709">"Haraka mno"</string>
     <string name="pano_dialog_prepare_preview" msgid="4788441554128083543">"Panorama inaandaliwa"</string>
-    <string name="pano_dialog_panorama_failed" msgid="2155692796549642116">"Haikuweza kuhifadhi Picha ya mandhari."</string>
-    <string name="pano_dialog_title" msgid="5755531234434437697">"Mandhari"</string>
-    <string name="pano_capture_indication" msgid="8248825828264374507">"Piga Picha ya mandhari"</string>
-    <string name="pano_dialog_waiting_previous" msgid="7800325815031423516">"Inasubiri mandhari ya awali"</string>
+    <string name="pano_dialog_panorama_failed" msgid="2155692796549642116">"Imeshindwa kuhifadhi picha ya panorama."</string>
+    <string name="pano_dialog_title" msgid="5755531234434437697">"Panorama"</string>
+    <string name="pano_capture_indication" msgid="8248825828264374507">"Inapiga picha ya panorama"</string>
+    <string name="pano_dialog_waiting_previous" msgid="7800325815031423516">"Inasubiri picha ya awali ya panorama"</string>
     <string name="pano_review_saving_indication_str" msgid="2054886016665130188">"Inahifadhi…"</string>
     <string name="pano_review_rendering" msgid="2887552964129301902">"Inaonyesha panorama"</string>
     <string name="tap_to_focus" msgid="8863427645591903760">"Gusa ili kulenga."</string>
@@ -109,7 +109,7 @@
     <string name="effect_backdropper_space" msgid="7935661090723068402">"Kwenya nafasi"</string>
     <string name="effect_backdropper_sunset" msgid="45198943771777870">"Jua kutua"</string>
     <string name="effect_backdropper_gallery" msgid="959158844620991906">"Video yako"</string>
-    <string name="bg_replacement_message" msgid="9184270738916564608">"Weka kifaa chako chini."\n"Toka nje ya muonekano kwa muda."</string>
+    <string name="bg_replacement_message" msgid="9184270738916564608">"Weka kifaa chako chini.\nToka nje ya muonekano kwa muda."</string>
     <string name="video_snapshot_hint" msgid="18833576851372483">"Gusa ili upige picha wakati unarekodi."</string>
     <string name="video_recording_started" msgid="4132915454417193503">"Kurekodi kwa video kumeanza."</string>
     <string name="video_recording_stopped" msgid="5086919511555808580">"Kurekodi kwa video kumekomeshwa."</string>
@@ -132,14 +132,14 @@
     <skip />
     <string name="accessibility_switch_to_camera" msgid="5951340774212969461">"Badilisha hadi kwa picha"</string>
     <string name="accessibility_switch_to_video" msgid="4991396355234561505">"Badilisha hadi kwa video"</string>
-    <string name="accessibility_switch_to_panorama" msgid="604756878371875836">"Badilisha hadi kwa panorama"</string>
+    <string name="accessibility_switch_to_panorama" msgid="604756878371875836">"Badilisha hadi panorama"</string>
     <string name="accessibility_switch_to_new_panorama" msgid="8116783308051524188">"Badili hadi kwenye panorama mpya"</string>
     <string name="accessibility_review_cancel" msgid="9070531914908644686">"Ukaguzi umeghairiwa"</string>
     <string name="accessibility_review_ok" msgid="7793302834271343168">"Ukaguzi umekamilika"</string>
     <string name="accessibility_review_retake" msgid="659300290054705484">"Kagua ukaguzi"</string>
     <string name="capital_on" msgid="5491353494964003567">"IMEWASHWA"</string>
     <string name="capital_off" msgid="7231052688467970897">"IMEZIMWA"</string>
-    <string name="pref_video_time_lapse_frame_interval_off" msgid="3490489191038309496">"Imezimwa"</string>
+    <string name="pref_video_time_lapse_frame_interval_off" msgid="3490489191038309496">"Kimezimwa"</string>
     <string name="pref_video_time_lapse_frame_interval_500" msgid="2949719376111679816">"Sekunde 0.5"</string>
     <string name="pref_video_time_lapse_frame_interval_1000" msgid="1672458758823855874">"Sekunde 1"</string>
     <string name="pref_video_time_lapse_frame_interval_1500" msgid="3415071702490624802">"Sekunde 1.5"</string>
@@ -182,14 +182,14 @@
     <string name="time_lapse_seconds" msgid="2105521458391118041">"sekunde"</string>
     <string name="time_lapse_minutes" msgid="7738520349259013762">"dakika"</string>
     <string name="time_lapse_hours" msgid="1776453661704997476">"saa"</string>
-    <string name="time_lapse_interval_set" msgid="2486386210951700943">"Imekamilika"</string>
+    <string name="time_lapse_interval_set" msgid="2486386210951700943">"Nimemaliza"</string>
     <string name="set_time_interval" msgid="2970567717633813771">"Weka Nafasi ya Muda"</string>
     <string name="set_time_interval_help" msgid="6665849510484821483">"Kipengele cha muda kupita kimezimika. Kiwashe ili kuweka nafasi ya muda."</string>
-    <string name="set_timer_help" msgid="5007708849404589472">"Kipima muda cha kuhesabu kimezimwa. Kiwashe ili kihesabu kabla ya kupiga picha."</string>
+    <string name="set_timer_help" msgid="5007708849404589472">"Kipima muda kimezimwa. Kiwashe ili kihesabu kabla ya kupiga picha."</string>
     <string name="set_duration" msgid="5578035312407161304">"Weka muda katika sekunde"</string>
     <string name="count_down_title_text" msgid="4976386810910453266">"Inahesabu ili kupiga picha"</string>
     <string name="remember_location_title" msgid="9060472929006917810">"Kumbuka maeneo ya picha?"</string>
-    <string name="remember_location_prompt" msgid="724592331305808098">"Tambulisha picha na video zako kwa maeneo ambapo zinachukuliwa."\n\n"Programu nyingine zinaweza kufikia maelezo haya kando na picha zako zilizohifadhiwa."</string>
+    <string name="remember_location_prompt" msgid="724592331305808098">"Tambulisha picha na video zako kwa maeneo ambapo zinachukuliwa.\n\nProgramu nyingine zinaweza kufikia maelezo haya kando na picha zako zilizohifadhiwa."</string>
     <string name="remember_location_no" msgid="7541394381714894896">"La, asante"</string>
     <string name="remember_location_yes" msgid="862884269285964180">"Ndiyo"</string>
 </resources>
