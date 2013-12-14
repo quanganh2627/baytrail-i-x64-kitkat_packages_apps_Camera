@@ -29,7 +29,6 @@ import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.util.Log;
 
 import com.android.camera.ui.CameraSwitcher;
 import com.android.gallery3d.app.PhotoPage;
@@ -68,7 +67,6 @@ public class CameraActivity extends ActivityBase
 
     @Override
     public void onCreate(Bundle state) {
-        Log.d(TAG, "Performance Google camera onCreate now.");
         super.onCreate(state);
         setContentView(R.layout.camera_main);
         mFrame = (FrameLayout) findViewById(R.id.main_content);

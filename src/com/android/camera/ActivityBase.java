@@ -468,8 +468,6 @@ public abstract class ActivityBase extends AbstractGalleryActivity
         mShowCameraAppView = full;
         if (mPaused || isFinishing()) return;
         updateCameraAppView();
-	updateStorageSpace();
-	updateStorageHint(mStorageSpace);
     }
 
     @Override

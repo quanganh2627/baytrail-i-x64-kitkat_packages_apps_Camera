@@ -572,7 +572,6 @@ public class PanoramaModule implements CameraModule,
     void setupProgressDirectionMatrix() {
         int degrees = Util.getDisplayRotation(mActivity);
         int cameraId = CameraHolder.instance().getBackCameraId();
-        if (cameraId == -1) cameraId = 0;
         int orientation = Util.getDisplayOrientation(degrees, cameraId);
         mProgressDirectionMatrix.reset();
         mProgressDirectionMatrix.postRotate(orientation);
@@ -1268,20 +1267,7 @@ public class PanoramaModule implements CameraModule,
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_FOCUS:
-                if (event.getRepeatCount() == 0) {
-                    onShutterButtonFocus(true);
-                }
-                return true;
-            case KeyEvent.KEYCODE_CAMERA:
-                if (event.getRepeatCount() == 0) {
-                    onShutterButtonClick();
-                }
-                return true;
-            default:
-                return false;
-        }
+        return false;
     }
 
     @Override
