@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">MultiCamera</string>
+    <string name="action_settings">Settings</string>
+    <string name="cameraPreview1">cameraView1</string>
+    <string name="cameraPreview2">cameraView2</string>
+    <string name="cameraPreview3">cameraView3</string>
+    <string name="cameraPreview4">cameraView4</string>
+    <string name="startRecAll">startRecAll</string>
+    <string name="stopRecAll">stopRecAll</string>
+
+</resources>

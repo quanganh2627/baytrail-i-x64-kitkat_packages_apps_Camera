@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">MultiCamera</string>
+    <string name="action_settings">Settings</string>
+    <string name="cameraRec1">cameraRec1</string>
+    <string name="cameraRec2">cameraRec2</string>
+    <string name="cameraRec3">cameraRec3</string>
+    <string name="cameraRec4">cameraRec4</string>
+    <string name="cameraStop1">cameraStop1</string>
+    <string name="cameraStop2">cameraStop2</string>
+    <string name="cameraStop3">cameraStop3</string>
+    <string name="cameraStop4">cameraStop4</string>
+    <string name="startRecAll">startRecAll</string>
+    <string name="stopRecAll">stopRecAll</string>
+    <string name="startRecT">startRecT</string>
+    <string name="stopRecT">stopRecT</string>
+    <string name="Settings">Settings</string>
+    <string name="size640_480">640x480</string>
+    <string name="size640_360">640x360</string>
+    <string name="size544_288">544x288</string>
+    <string name="size432_240">432x240</string>
+    <string name="size352_288">352x288</string>
+    <string name="size320_240">320x240</string>
+    <string name="size320_176">320x176</string>
+    <string name="size160_120">160x120</string>
+    <string name="frame15">15</string>
+    <string name="frame30">30</string>
+    <string name="selectvideosize">Please select videosize</string>
+    <string name="selectframerate">Please select framerate</string>
+    <string name="recfilesize">Please input record file size In Megabytes (1~4096)</string>
+    <string name="videoSizeSetting">VideoSize Setting</string>
+    <string name="frameRateSetting">FrameRate Setting</string>
+    <string name="recordFileSizeSetting">Record File Size Setting</string>
+
+<!-- enable the settings if supportConfigure codecprofile -->
+    <string name="codecprofile">Codec Profile</string>
+    <string name="selectcodecprofile">Select Codec Profile</string>
+
+    <string name="QUALITY_QVGA">QVGA:resolution(320x240),frameRate(30)</string>  
+    <string name="QUALITY_480P">480P:resolution(640x480),frameRate(30)</string> 
+
+    <string name="QUALITY_QVGA_VAL">7</string>  
+    <string name="QUALITY_480P_VAL">4</string> 
+
+</resources>

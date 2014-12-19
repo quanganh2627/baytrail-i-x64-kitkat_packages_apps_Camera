@@ -1,0 +1,132 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MultiCamera" >
+
+    <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="48dp"
+         android:fadingEdge="vertical"
+         android:orientation="horizontal" >
+
+         <Button
+             android:id="@+id/startRecAll"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="@string/startRecAll" />
+         <Button
+             android:id="@+id/stopRecAll"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="@string/stopRecAll" />
+
+    </LinearLayout>
+    <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="48dp"
+         android:fadingEdge="vertical"
+         android:orientation="horizontal" >
+
+         <Button
+             android:id="@+id/cameraRec1"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="@string/cameraRec1" />
+
+         <Button
+             android:id="@+id/cameraRec2"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="@string/cameraRec2" />
+
+         <Button
+             android:id="@+id/cameraRec3"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="@string/cameraRec3" />
+
+         <Button
+             android:id="@+id/cameraRec4"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="@string/cameraRec4" />
+     
+     </LinearLayout>     
+     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <View
+            android:layout_width="2px"
+            android:layout_height="match_parent"
+            android:background="?android:attr/listDivider" />
+
+        <FrameLayout
+            android:id="@+id/frame_layout1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+        </FrameLayout>
+
+        <View
+            android:layout_width="2px"
+            android:layout_height="match_parent"
+            android:background="?android:attr/listDivider" />
+
+        <FrameLayout
+            android:id="@+id/frame_layout2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+        </FrameLayout>
+
+        <View
+            android:layout_width="2px"
+            android:layout_height="match_parent"
+            android:background="?android:attr/listDivider" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <View
+            android:layout_width="2px"
+            android:layout_height="match_parent"
+            android:background="?android:attr/listDivider" />
+
+        <FrameLayout
+            android:id="@+id/frame_layout3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+        </FrameLayout>
+
+        <View
+            android:layout_width="2px"
+            android:layout_height="match_parent"
+            android:background="?android:attr/listDivider" />
+
+        <FrameLayout
+            android:id="@+id/frame_layout4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+        </FrameLayout>
+
+        <View
+            android:layout_width="2px"
+            android:layout_height="match_parent"
+            android:background="?android:attr/listDivider" />
+    </LinearLayout>
+</LinearLayout>

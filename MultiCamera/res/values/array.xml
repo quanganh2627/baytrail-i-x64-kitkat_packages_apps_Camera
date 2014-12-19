@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2014 The Android Open Source Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License
+  -->
+
+<!-- Array resources for the Phone app. -->
+<resources>
+    <!-- "Target" resources for the GlowPadView widget used for incoming calls;
+         see InCallTouchUi.showIncomingCallWidget() and incall_touch_ui.xml.  -->
+
+    <!-- For most incoming calls the GlowPadView widget provides 3 choices:
+         - Answer (drag right)
+         - Reject (drag left)
+         - Respond via SMS (drag up) -->
+
+    <string-array name="multicamera_list_videosize">
+        <item>@string/size640_480</item>
+        <item>@string/size640_360</item>
+        <item>@string/size544_288</item>
+        <item>@string/size432_240</item>
+        <item>@string/size352_288</item>
+        <item>@string/size320_240</item>
+        <item>@string/size320_176</item>
+        <item>@string/size160_120</item>
+    </string-array>
+
+    <string-array name="multicamera_list_framerate">
+        <item>@string/frame15</item>
+        <item>@string/frame30</item>
+    </string-array>
+
+<!-- enable the settings if supportConfigure codecprofile
+    <string-array name="multicamera_list_codecprofile">
+		<item>@string/QUALITY_QVGA</item>  
+		<item>@string/QUALITY_480P</item> 
+    </string-array>
+    <string-array name="multicamera_list_codecprofile_no">
+		<item>@string/QUALITY_QVGA_VAL</item>  
+		<item>@string/QUALITY_480P_VAL</item> 
+    </string-array>
+-->
+
+</resources>

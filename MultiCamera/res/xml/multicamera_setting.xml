@@ -1,0 +1,46 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >  
+
+    <PreferenceCategory android:title="@string/videoSizeSetting" >  
+        <ListPreference  
+            android:dialogTitle="@string/selectvideosize"  
+            android:entries="@array/multicamera_list_videosize"  
+            android:entryValues="@array/multicamera_list_videosize"  
+            android:key="list_videosize"  
+            android:summary=""  
+            android:title="@string/selectvideosize"
+            android:defaultValue="@string/size640_480" />   
+    </PreferenceCategory>  
+    
+    <PreferenceCategory android:title="@string/frameRateSetting" >   
+        <ListPreference  
+            android:dialogTitle="@string/selectframerate"  
+            android:entries="@array/multicamera_list_framerate"  
+            android:entryValues="@array/multicamera_list_framerate"  
+            android:key="list_framerate"  
+            android:summary=""  
+            android:title="@string/selectframerate"
+            android:defaultValue="@string/frame30" />  
+    </PreferenceCategory>
+
+<!-- enable the settings if supportConfigure codecprofile
+    <PreferenceCategory android:title="@string/codecprofile" >   
+        <ListPreference  
+            android:dialogTitle="@string/selectcodecprofile"  
+            android:entries="@array/multicamera_list_codecprofile"  
+            android:entryValues="@array/multicamera_list_codecprofile_no"  
+            android:key="list_codecprofile_quality_key"  
+            android:summary=""  
+            android:title="@string/selectcodecprofile"
+	    android:defaultValue="@string/QUALITY_480P_VAL" /> 
+    </PreferenceCategory>
+ -->
+    <PreferenceCategory android:title="@string/recordFileSizeSetting" >  
+        <EditTextPreference  
+            android:dialogTitle="@string/recfilesize"  
+            android:key="edittext_maxFileSize"  
+            android:summary=""  
+            android:title="@string/recfilesize"
+            android:defaultValue="1024" />
+    </PreferenceCategory>   
+  
+</PreferenceScreen> 
