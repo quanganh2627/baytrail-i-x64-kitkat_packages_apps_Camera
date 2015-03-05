@@ -95,6 +95,18 @@
             android:background="?android:attr/listDivider" />
     </LinearLayout>
     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="2dp"
+         android:fadingEdge="vertical"
+		 android:orientation="horizontal" >
+
+         <View
+            android:layout_width="2px"
+            android:layout_height="match_parent"
+			android:background="?android:attr/listDivider" />
+	</LinearLayout>
+
+	<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"

@@ -54,7 +54,7 @@ public class MultiCameraActivity extends Activity
     public final static String TAG="MultiCamera";
 	
     private static final int menu_setting = 1;
-    private static final int PREVIEW_COUNT = 2;
+    private static final int PREVIEW_COUNT = 4;//2;
     public CameraRecord mMultiCamera = null;
     public int mPreviewCount = 0;
     public boolean[] mRecordingFlag = new boolean[PREVIEW_COUNT];
@@ -99,6 +99,8 @@ public class MultiCameraActivity extends Activity
         
         mFrameLayout[0] = (FrameLayout) findViewById(R.id.frame_layout1);
         mFrameLayout[1] = (FrameLayout) findViewById(R.id.frame_layout2);
+        mFrameLayout[2] = (FrameLayout) findViewById(R.id.frame_layout3);
+        mFrameLayout[3] = (FrameLayout) findViewById(R.id.frame_layout4);
 
         mBtnCamera[0]=(Button)findViewById(R.id.cameraRec1);
         mBtnCamera[1]=(Button)findViewById(R.id.cameraRec2);
