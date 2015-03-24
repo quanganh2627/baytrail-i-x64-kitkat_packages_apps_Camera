@@ -67,6 +67,8 @@ public class MultiCameraActivity extends Activity
     String[] mSizeWH = new String[2];
     String mStrFPS;
     
+    private int nCameras = 0;
+
     CameraPreview[] mCameraPreview = new CameraPreview[PREVIEW_COUNT];
     FrameLayout[] mFrameLayout = new FrameLayout[PREVIEW_COUNT];
 
@@ -90,8 +92,13 @@ public class MultiCameraActivity extends Activity
         super.onCreate(savedInstanceState);
         Log.e(TAG, " onCreate~~~");
         setContentView(R.layout.activity_multi_camera);
-    	
-        mMultiCamera = new CameraRecord(PREVIEW_COUNT);
+
+        nCameras = Camera.getNumberOfCameras();
+        if (nCameras > PREVIEW_COUNT) {
+            nCameras = PREVIEW_COUNT;
+        }
+        Log.e(TAG, "nCameras = " + nCameras);
+        mMultiCamera = new CameraRecord(nCameras);
         
         //set listener
         mMultiCamera.setOnErrorListener(this);
@@ -117,7 +124,7 @@ public class MultiCameraActivity extends Activity
         mCameraStartText[2] = getResources().getString(R.string.cameraRec3);
         mCameraStartText[3] = getResources().getString(R.string.cameraRec4);
 
-        for (int i = 0; i < PREVIEW_COUNT; i++) {
+        for (int i = 0; i < nCameras; i++) {
             mRecordingFlag[i] = false;
             mCameraPreview[i] = new CameraPreview(this,i);
             mFrameLayout[i].addView(mCameraPreview[i], 0);
@@ -128,7 +135,7 @@ public class MultiCameraActivity extends Activity
             @Override
             public void onClick(View v) {
             	int ret = -1;
-            	for (int i = 0; i < PREVIEW_COUNT; i++) {
+                for (int i = 0; i < nCameras; i++) {
             	    if (!mRecordingFlag[i]) {
                         ret = safeStartRecordingById(i);
                         if (ret == 0) {
@@ -148,8 +155,7 @@ public class MultiCameraActivity extends Activity
             @Override
             public void onClick(View v) {
             	int ret = -1;
-            	
-            	for (int i = 0; i < PREVIEW_COUNT; i++) {
+                for (int i = 0; i < nCameras; i++) {
                     if (mRecordingFlag[i]) {
                         ret = mMultiCamera.stopRecordingById(i);
                         if (ret == 0) { 
@@ -168,8 +174,7 @@ public class MultiCameraActivity extends Activity
             @Override
             public void onClick(View v) {
             	int ret = -1;
-            	
-                for (int i = 0; i < PREVIEW_COUNT; i++) {
+                for (int i = 0; i < nCameras; i++) {
                     if (i == 0) {
                         if (!mRecordingFlag[i]) {  
                             ret = safeStartRecordingById(i);
@@ -193,8 +198,7 @@ public class MultiCameraActivity extends Activity
             @Override
             public void onClick(View v) {
             	int ret = -1;
-
-                for (int i = 0; i < PREVIEW_COUNT; i++) {
+                for (int i = 0; i < nCameras; i++) {
                     if (i == 1) {
                         if (!mRecordingFlag[i]) {  
                             ret = safeStartRecordingById(i);
@@ -218,8 +222,7 @@ public class MultiCameraActivity extends Activity
             @Override
             public void onClick(View v) {
             	int ret = -1;
-
-                for (int i = 0; i < PREVIEW_COUNT; i++) {
+                for (int i = 0; i < nCameras; i++) {
                     if (i == 2) {
                         if (!mRecordingFlag[i]) {  
                             ret = safeStartRecordingById(i);
@@ -243,8 +246,7 @@ public class MultiCameraActivity extends Activity
             @Override
             public void onClick(View v) {
             	int ret = -1;
-
-                for (int i = 0; i < PREVIEW_COUNT; i++) {
+                for (int i = 0; i < nCameras; i++) {
                     if (i == 3) {
                         if (!mRecordingFlag[i]) {  
                             ret = safeStartRecordingById(i);
@@ -346,7 +348,7 @@ public class MultiCameraActivity extends Activity
 
             mMultiCamera.setPreviewSurface(mCameraPreviewId, gHolder.getSurface());
             mPreviewCount++;
-            if (mPreviewCount == PREVIEW_COUNT) {
+            if (mPreviewCount == nCameras) {
                 mMultiCamera.Init();
 
                 int width = Integer.parseInt(mSizeWH[0]);
@@ -394,7 +396,7 @@ public class MultiCameraActivity extends Activity
 
             mPreviewCount--;
             if (mPreviewCount == 0) {
-                for (int i = 0; i < PREVIEW_COUNT; i++) {
+                for (int i = 0; i < nCameras; i++) {
                     if (mRecordingFlag[i]) {
                         ret = mMultiCamera.stopRecordingById(i);
                         if (ret == 0) {
@@ -440,15 +442,15 @@ public class MultiCameraActivity extends Activity
             //Log.d(TAG, "blockSize :"+ blockSize+",blockCount:"+ blockCount+",summary size:"+blockSize*blockCount/1024+"KB");  
             //Log.d(TAG, "availCount:"+ availCount+", avail space Size "+ availCount*blockSize/1024+"KB");
 
-            Log.d(TAG, "PREVIEW_COUNT * maxFileSize = " + (PREVIEW_COUNT*maxFileSize)/1024 + "KB");
+            Log.d(TAG, "nCameras * maxFileSize = " + (nCameras*maxFileSize)/1024 + "KB");
             Log.d(TAG, "availableSpaceBytes = " + availableSpaceBytes/1024 + "KB");
-            if(availableSpaceBytes > PREVIEW_COUNT*maxFileSize) { 
+            if(availableSpaceBytes > nCameras*maxFileSize) {
                 Log.d(TAG, sdcardDir + ": availableSpace = " + availableSpaceBytes/1024 + "KB");
                 return true;
             } else {
                 Log.e(TAG, sdcardDir + ": availableSpace " + availableSpaceBytes/1024 
-                         + "KB too samll, should be more than PREVIEW_COUNT * video File size(KB) = "
-                         + PREVIEW_COUNT + "*"+ maxFileSize/1024 +"KB");
+                         + "KB too samll, should be more than nCameras * video File size(KB) = "
+                         + nCameras + "*"+ maxFileSize/1024 +"KB");
                 return false;
             }
         } else {
